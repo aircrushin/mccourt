@@ -8,5 +8,5 @@ test('demo case reaches verdict', async ({ page }) => {
   await page.getByRole('button', { name: '咚！开庭！' }).click();
   await page.getByRole('button', { name: '跳过动画' }).click();
   await expect(page.getByRole('heading', { name: /麦门人民 法院判决书/ })).toBeVisible();
-  await expect(page.getByText('演示模式：以下餐品、价格与营养均为演示数据')).toBeVisible();
+  await expect(page.getByText('体验资料：以下餐品、价格与营养来自固定案例资料')).toBeVisible();
 });
