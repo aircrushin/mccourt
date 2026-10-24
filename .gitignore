@@ -9,3 +9,4 @@ test-results
 *.tsbuildinfo
 work/*-response.json
 work/capture_*.mjs
+.vercel
