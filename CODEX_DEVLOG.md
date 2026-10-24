@@ -29,3 +29,10 @@
 - 真实 API 验证返回 live=true、35 个工具、88 个餐品，推荐结果带价格/营养来源字段。
 - 修复推荐引擎多样性评分测试，补充 Playwright 核心流程测试。
 - `npm run lint`、`npm run typecheck`、`npm test`、`npm run build`、`npx playwright test --reporter=line` 均通过。
+
+## 2026-10-24 20:37–20:39
+
+- 将 Next.js 从 15.5.x 升级到 16.4.3，并同步 React 19.3.1、React DOM 19.3.1、eslint-config-next 16.4.3 与 React 类型包。
+- 接受 Next.js 16 自动更新的 TypeScript 配置：React automatic JSX runtime 与 `.next/dev/types` 类型目录。
+- Next.js 16 默认使用 Turbopack；现有 `next dev` / `next build` 脚本无需额外参数。
+- 升级后 lint、类型检查、5 个单元测试、Playwright 核心流程和生产构建均通过。
