@@ -13,8 +13,10 @@
     "e2e": "playwright test"
   },
   "dependencies": {
+    "@ai-sdk/openai-compatible": "3.0.77",
     "@modelcontextprotocol/sdk": "^1.17.2",
     "@tailwindcss/postcss": "^4.1.14",
+    "ai": "7.0.152",
     "lucide-react": "^0.468.0",
     "motion": "^12.23.24",
     "next": "16.4.3",

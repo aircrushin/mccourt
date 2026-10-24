@@ -31,3 +31,17 @@ npm run dev
 ## 数据真实性
 
 价格和营养字段只来自 MCP 响应。字段缺失时 UI 显示“暂未获取”。演示模式使用明确标注的本地示例数据，不伪装成实时结果。
+
+## OpenRouter AI 法官（可选）
+
+McCourt 使用 Vercel AI SDK 的 OpenAI-compatible provider 接入 OpenRouter。默认模型为 `qwen/qwen3.7-flash:nitro`，适合中文短文本生成，优先低延迟路由。模型只生成案件名称、审理意见和推荐理由，不接触或改写已验证的价格、餐品名称、营养和来源字段。
+
+填写以下环境变量即可启用：
+
+```bash
+OPENROUTER_API_KEY=你的 OpenRouter API Key
+OPENROUTER_MODEL=qwen/qwen3.7-flash:nitro
+OPENROUTER_SITE_URL=https://mccourt.vercel.app
+```
+
+没有 API Key、请求超时或模型返回异常时，服务会自动使用确定性判词，不影响推荐主流程。

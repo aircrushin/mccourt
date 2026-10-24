@@ -34,7 +34,7 @@ npm run build
 
 ## 部署
 
-目标平台是 Vercel。部署前在项目环境变量中设置 `MCD_MCP_TOKEN`，不要上传 `.env.local`。部署和报名需要用户手动完成，当前仓库未自动发布。
+目标平台是 Vercel。部署前在项目环境变量中设置 `MCD_MCP_TOKEN`。如需 AI 法官文案，再设置 `OPENROUTER_API_KEY`；默认模型为 `qwen/qwen3.7-flash:nitro`。不要上传 `.env.local`。部署和报名需要用户手动完成，当前仓库未自动发布。
 
 ## 文档
 
