@@ -32,7 +32,8 @@ export function OrderPanel({ permit, selections }: { permit: OrderPermitToken; s
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ ...permit, selections, ...(takeWayCode ? { takeWayCode } : {}) }),
       });
-      const data = await response.json();
+      const data = await response.json().catch(() => null);
+      if (!data) throw new Error('暂时无法完成点餐，请稍后重试。');
       if (!response.ok) throw new Error(data.error || '暂时无法完成点餐，请稍后重试。');
       if (data.order?.payH5Url) {
         setOrder(data.order);

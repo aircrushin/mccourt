@@ -11,7 +11,7 @@ import { POST as recommend } from '../../app/api/recommend/route';
 import { POST as appeal } from '../../app/api/appeal/route';
 import { POST as order } from '../../app/api/mcd/order/route';
 import { readOrderPermit, resolveSelection, signOrderPermit } from '../../lib/court/order-permit';
-import { parseCreatedOrder, parsePriceQuote } from '../../lib/mcd/order-price';
+import { parseCreatedOrder, parseMcpRpc, parsePriceQuote, readToolData, selectionsFromMealDetail } from '../../lib/mcd/order-price';
 import type { Participant } from '../../lib/types/index';
 
 const participant: Participant = { id: 'p1', name: '小王', budget: 40, taste: [], goal: '', hunger: 3, request: '想吃汉堡' };
@@ -45,6 +45,23 @@ describe('price and payment parsing', () => {
   it('rejects a quote without a payable amount or a take-away choice', () => {
     expect(() => parsePriceQuote({ price: 1000, takeWayList: [] })).toThrow('暂时无法确认取餐方式');
     expect(() => parsePriceQuote({ takeWayList: [{ code: 'eat-in', title: '店内用餐' }] })).toThrow('暂时无法核实应付金额');
+  });
+
+  it('reads a streamed MCP result and a business refusal', () => {
+    const streamed = 'event: message\ndata: {"jsonrpc":"2.0","id":9,"result":{"structuredContent":\ndata: {"success":true,"data":{"orderId":"OID-1","payH5Url":"https://pay.mcd.cn/h5/1"}}}}\n\n';
+    expect(parseCreatedOrder(readToolData(parseMcpRpc(streamed).result))).toEqual({ orderId: 'OID-1', payH5Url: 'https://pay.mcd.cn/h5/1', pickupCode: null });
+    expect(() => readToolData({ structuredContent: { success: false, code: 60006, message: '商品已售罄', data: null } })).toThrow('商品已售罄');
+  });
+
+  it('keeps the menu default combo choices for ordering', () => {
+    expect(selectionsFromMealDetail({
+      rounds: [{ id: 12, minQuantity: 1, choices: [{ code: '4801', name: '中可乐', isDefault: 1, quantity: 1 }, { code: '4802', name: '雪碧', isDefault: 0, quantity: 0 }] }],
+      modification: { items: [{ values: [{ code: 'ice', selectedKey: 'yes', unselectedKey: 'no', selectedQuantity: 1 }, { code: 'sugar', selectedKey: 'add', unselectedKey: 'none', selectedQuantity: 0 }] }] },
+    })).toEqual({
+      roundList: [{ round: '12', comboItemList: [{ code: '4801', quantity: 1 }] }],
+      modification: { values: [{ code: 'ice', key: 'yes', quantity: 1 }, { code: 'sugar', key: 'none', quantity: 0 }] },
+    });
+    expect(selectionsFromMealDetail({ name: '薯条' })).toEqual({});
   });
 
   it('accepts only an https payment link', () => {
@@ -173,21 +190,25 @@ describe('order route', () => {
     ]);
   });
 
-  it('creates the pickup order only after a listed take-away choice', async () => {
-    vi.mocked(quotePickup).mockResolvedValue({
-      price: 32, originalPrice: 32, discount: 0, items: [],
-      takeWays: [{ code: 'takeout', title: '打包带走', subtitle: null }],
+  it('creates the order without pricing it twice and shows a McDonald refusal', async () => {
+    vi.mocked(placePickupOrder).mockImplementation(async (_store, _items, code) => {
+      if (code !== 'takeout') throw new Error('请选择列出的取餐方式。');
+      return { orderId: 'OID-1', payH5Url: 'https://pay.mcd.cn/h5/1', pickupCode: '8848' };
     });
-    vi.mocked(placePickupOrder).mockResolvedValue({ orderId: 'OID-1', payH5Url: 'https://pay.mcd.cn/h5/1', pickupCode: '8848' });
     const body = { ...signed(), selections: [{ participantId: 'p1', itemIds: ['1001', '2001'] }] };
     expect((await order(request({ ...body, takeWayCode: 'eat-in' }))).status).toBe(400);
-    expect(placePickupOrder).not.toHaveBeenCalled();
+    expect(quotePickup).not.toHaveBeenCalled();
     const response = await order(request({ ...body, takeWayCode: 'takeout' }));
     expect(await response.json()).toEqual({ order: { orderId: 'OID-1', payH5Url: 'https://pay.mcd.cn/h5/1', pickupCode: '8848' } });
+    expect(quotePickup).not.toHaveBeenCalled();
     expect(placePickupOrder).toHaveBeenCalledWith(store.storeCode, [
       { productCode: '1001', quantity: 1 },
       { productCode: '2001', quantity: 1 },
     ], 'takeout');
+    vi.mocked(placePickupOrder).mockRejectedValueOnce(new Error('MCP 60006: 商品已售罄'));
+    const refused = await order(request({ ...body, takeWayCode: 'takeout' }));
+    expect(refused.status).toBe(502);
+    expect(await refused.json()).toEqual({ error: '商品已售罄' });
   });
 
   it('rejects cross-origin, sample-sized tampering, and official combos before calling McDonald’s', async () => {
