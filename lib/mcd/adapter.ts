@@ -1,5 +1,10 @@
 import { couponsForMeal, parseCoupons, toolPayload } from './coupons';
-import type { Meal } from '@/lib/types/index';
+import { parseCreatedOrder, parsePriceQuote } from './order-price';
+import { pickNearestOpenStore, placeFromGeocode, type NearbyStore } from './stores';
+import type { CourtStore, Meal } from '@/lib/types/index';
+
+export type MealLookup = { latitude?: number; longitude?: number; city?: string; keyword?: string; storeCode?: string };
+export type MealCatalog = { meals: Meal[]; live: boolean; warning?: string; updatedAt: string | null; toolName?: string; store: CourtStore | null };
 
 type JsonRpc = { jsonrpc: '2.0'; id: number; result?: any; error?: { code: number; message: string } };
 const MCP_URL = 'https://mcp.mcd.cn';
@@ -64,17 +69,49 @@ function toMeal(raw: any, tags: string[] = []): Meal | null {
   return { id:String(raw.code ?? raw.id ?? raw.productId ?? name), name:String(name), price, calories:typeof caloriesRaw === 'number' ? caloriesRaw : null, protein:typeof proteinRaw === 'number' ? proteinRaw : null, tags:[...tags, ...(Array.isArray(raw.tags) ? raw.tags.map(String) : [])], source:'麦当劳 MCP' };
 }
 
-export async function fetchMeals(): Promise<{ meals: Meal[]; live: boolean; warning?: string; updatedAt: string | null; toolName?: string }> {
-  if (!token()) return { meals: [], live:false, warning:'MCD_MCP_TOKEN 未配置，当前无法进入实时模式。', updatedAt:null };
+function storeList(data: any): NearbyStore[] {
+  const rows = Array.isArray(data) ? data : (Array.isArray(data?.data) ? data.data : []);
+  return rows.map((raw: any) => ({
+    storeCode: raw?.storeCode ? String(raw.storeCode) : '',
+    storeName: typeof raw?.storeName === 'string' ? raw.storeName : '',
+    address: typeof raw?.address === 'string' ? raw.address : '',
+    distance: typeof raw?.distance === 'number' && Number.isFinite(raw.distance) ? raw.distance : null,
+    businessStatus: raw?.businessStatus,
+  }));
+}
+
+async function reverseGeocode(latitude: number, longitude: number) {
+  try {
+    const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${encodeURIComponent(latitude)}&longitude=${encodeURIComponent(longitude)}&localityLanguage=zh`, { signal: AbortSignal.timeout(8000), cache: 'no-store' });
+    if (!response.ok) return null;
+    return placeFromGeocode(await response.json());
+  } catch { return null; }
+}
+
+export async function fetchMeals(lookup: MealLookup = {}): Promise<MealCatalog> {
+  if (!token()) return { meals: [], live:false, warning:'MCD_MCP_TOKEN 未配置，当前无法进入实时模式。', updatedAt:null, store:null };
   try {
     const discovered = await discoverMcpTools();
-    if (!discovered.live) return { meals: [], live:false, warning:discovered.reason, updatedAt:null };
-    const session = (discovered as any).sessionId;
-    const nearby = await rpc({ jsonrpc:'2.0', id:3, method:'tools/call', params:{ name:'query-nearby-stores', arguments:{ beType:1, searchType:2, city:'北京', keyword:'朝阳' } } }, session);
-    const stores = resultData(nearby.result) ?? [];
-    const store = (Array.isArray(stores) ? stores : stores.data ?? []).find((s:any)=>s.businessStatus !== false) ?? (Array.isArray(stores) ? stores[0] : null);
-    if (!store?.storeCode) return { meals:[], live:true, warning:'已连接 MCP，但未找到可用门店。', updatedAt:new Date().toISOString(), toolName:'query-nearby-stores' };
-    const menu = await rpc({ jsonrpc:'2.0', id:4, method:'tools/call', params:{ name:'query-meals', arguments:{ storeCode:String(store.storeCode), orderType:1, beType:1 } } }, nearby.sessionId);
+    if (!discovered.live) return { meals: [], live:false, warning:discovered.reason, updatedAt:null, store:null };
+    let session = (discovered as any).sessionId as string | undefined;
+    let store: CourtStore | null = null;
+    if (lookup.storeCode) store = { storeCode: lookup.storeCode, storeName: '', address: '', distance: null };
+    else {
+      let city = lookup.city?.trim();
+      let keyword = lookup.keyword?.trim();
+      if (!city || !keyword) {
+        if (lookup.latitude == null || lookup.longitude == null) return { meals:[], live:true, warning:'需要位置才能选择最近的门店。', updatedAt:new Date().toISOString(), store:null, toolName:'query-nearby-stores' };
+        const place = await reverseGeocode(lookup.latitude, lookup.longitude);
+        if (!place) return { meals:[], live:true, warning:'无法根据定位确定城市，请改填城市和地标。', updatedAt:new Date().toISOString(), store:null, toolName:'query-nearby-stores' };
+        city = place.city;
+        keyword = place.keyword;
+      }
+      const nearby = await rpc({ jsonrpc:'2.0', id:3, method:'tools/call', params:{ name:'query-nearby-stores', arguments:{ beType:1, searchType:2, city, keyword } } }, session);
+      session = nearby.sessionId;
+      store = pickNearestOpenStore(storeList(resultData(nearby.result)));
+      if (!store) return { meals:[], live:true, warning:'已连接 MCP，但附近没有营业中的门店。', updatedAt:new Date().toISOString(), store:null, toolName:'query-nearby-stores' };
+    }
+    const menu = await rpc({ jsonrpc:'2.0', id:4, method:'tools/call', params:{ name:'query-meals', arguments:{ storeCode:store.storeCode, orderType:1, beType:1 } } }, session);
     const data = resultData(menu.result);
     const detailMap = data?.meals ?? {};
     const tagMap = new Map<string,string[]>();
@@ -92,8 +129,22 @@ export async function fetchMeals(): Promise<{ meals: Meal[]; live: boolean; warn
       const { coupons } = await fetchAvailableCoupons();
       meals = meals.map(meal => ({ ...meal, coupons: couponsForMeal(meal.name, coupons) }));
     } catch { /* Coupon availability must not prevent meal recommendations. */ }
-    return { meals, live:true, warning:meals.length ? undefined : '已调用 query-meals，但响应中没有可验证的标准化餐品数据。', updatedAt:new Date().toISOString(), toolName:'query-meals' };
-  } catch (error) { return { meals:[], live:true, warning:`MCP 餐品查询失败：${error instanceof Error ? error.message : '未知错误'}`, updatedAt:new Date().toISOString(), toolName:'query-meals' }; }
+    return { meals, live:true, warning:meals.length ? undefined : '已调用 query-meals，但响应中没有可验证的标准化餐品数据。', updatedAt:new Date().toISOString(), toolName:'query-meals', store };
+  } catch (error) { return { meals:[], live:true, warning:`MCP 餐品查询失败：${error instanceof Error ? error.message : '未知错误'}`, updatedAt:new Date().toISOString(), toolName:'query-meals', store:null }; }
+}
+
+export async function quotePickup(storeCode: string, items: Array<{ productCode: string; quantity: number }>) {
+  const discovered = await discoverMcpTools();
+  if (!discovered.live) throw new Error('暂时无法向麦当劳确认价格。');
+  const response = await rpc({ jsonrpc:'2.0', id:8, method:'tools/call', params:{ name:'calculate-price', arguments:{ storeCode, orderType:1, beType:1, items } } }, discovered.sessionId);
+  return parsePriceQuote(resultData(response.result));
+}
+
+export async function placePickupOrder(storeCode: string, items: Array<{ productCode: string; quantity: number }>, takeWayCode: string) {
+  const discovered = await discoverMcpTools();
+  if (!discovered.live) throw new Error('暂时无法创建订单。');
+  const response = await rpc({ jsonrpc:'2.0', id:9, method:'tools/call', params:{ name:'create-order', arguments:{ storeCode, orderType:1, beType:1, takeWayCode, needTableware:false, items } } }, discovered.sessionId);
+  return parseCreatedOrder(resultData(response.result));
 }
 
 export async function fetchAvailableCoupons() {

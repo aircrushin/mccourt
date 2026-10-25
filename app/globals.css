@@ -142,3 +142,8 @@ button:focus-visible, summary:focus-visible { outline: 3px solid var(--red); out
 
 .meal-coupon { margin-top: 10px; }
 .meal-coupon .chip { margin-top: 6px; min-height: 44px; white-space: normal; text-align: left; }
+.order-panel { border: 2px solid var(--ink); border-radius: 14px; padding: 14px; margin-top: 14px; background: var(--paper); }
+.order-panel h2 { font: 900 26px/1.1 Fraunces, serif; letter-spacing: -.04em; margin: 0 0 8px; }
+.order-panel .cta { margin-top: 12px; text-decoration: none; }
+.order-panel .source-note { display: block; margin-top: 10px; }
+.take-ways { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }

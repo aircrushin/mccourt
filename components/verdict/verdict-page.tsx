@@ -2,8 +2,11 @@
 
 import { useState } from 'react';
 import { Check, Gavel, RotateCcw, Share2 } from 'lucide-react';
+import { mealCategory } from '@/lib/court/recommend';
+import { formatDistance } from '@/lib/mcd/stores';
 import type { MealCombination, Participant, Verdict } from '@/lib/types/index';
 import { Combination, money } from './combination';
+import { OrderPanel } from './order-panel';
 
 const APPEALS = ['太贵了', '不够饱', '不喜欢', '想换个口味'];
 export function VerdictPage({ verdict, participants, mode, onReset }: { verdict: Verdict; participants: Participant[]; mode: 'live' | 'demo'; onReset: () => void }) {
@@ -17,6 +20,7 @@ export function VerdictPage({ verdict, participants, mode, onReset }: { verdict:
   const [updatedAt, setUpdatedAt] = useState<Record<string, string | null>>({});
   const [final, setFinal] = useState(false);
   const [changed, setChanged] = useState(false);
+  const [permit, setPermit] = useState(verdict.orderPermit ?? null);
   const currentRuling = changed ? '本庭已按当事人的选择或上诉重新调整组合。各人的预算红线继续有效，最终餐品与总价以以下清单为准。' : verdict.ruling;
   const allConfirmed = participants.every(p => confirmed.includes(p.id));
   const total = recs.every(r => r.items.length && r.totalPrice != null) ? recs.reduce((sum, r) => sum + Math.round(r.totalPrice! * 100), 0) / 100 : null;
@@ -35,7 +39,7 @@ export function VerdictPage({ verdict, participants, mode, onReset }: { verdict:
     setBusy(p.id);
     const current = recs.find(r => r.participantId === p.id);
     try {
-      const res = await fetch('/api/appeal', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ participant: p, reason, previousItemIds: current?.items.map(item => item.id) ?? [], mode }) });
+      const res = await fetch('/api/appeal', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ participant: p, reason, previousItemIds: current?.items.map(item => item.id) ?? [], mode, ...(verdict.store ? { storeCode: verdict.store.storeCode } : {}), ...(permit ? { orderPermit: permit } : {}) }) });
       const data = await res.json();
       if (!res.ok || !data.recommendation) throw new Error(data.error || '上诉失败，请重试。');
       setRounds(current => ({ ...current, [p.id]: (current[p.id] ?? 0) + 1 }));
@@ -44,6 +48,7 @@ export function VerdictPage({ verdict, participants, mode, onReset }: { verdict:
         setRecs(current => current.map(r => r.participantId === p.id ? data.recommendation : r));
         setUpdatedAt(current => ({ ...current, [p.id]: data.updatedAt }));
       }
+      if (data.orderPermit) setPermit(data.orderPermit);
       setMessages(current => ({ ...current, [p.id]: data.message || `上诉已重新计算，请核对新组合。${data.warning || ''}` }));
       setAppealing(null);
     } catch (error) { setMessages(current => ({ ...current, [p.id]: error instanceof Error ? error.message : '上诉失败，请重试。' })); }
@@ -76,8 +81,12 @@ export function VerdictPage({ verdict, participants, mode, onReset }: { verdict:
       </article>;
     })}</div>
     <div className="party-total"><span>全桌合计<small>每人分别遵守自己的预算</small></span><strong>{total != null ? money(total) : '暂无法核实'}</strong></div>
+    {verdict.store && <p className="source-note">最近门店：{verdict.store.storeName || verdict.store.storeCode}{verdict.store.address ? ` · ${verdict.store.address}` : ''}{formatDistance(verdict.store.distance) ? ` · ${formatDistance(verdict.store.distance)}` : ''}</p>}
     {allConfirmed && !final && <button className="cta yellow" style={{ marginTop: 22 }} onClick={() => setFinal(true)}>判决生效 <Gavel size={21} /></button>}
     {final && <div className="final-banner">判决生效！各位当事人，开吃。</div>}
+    {final && mode === 'live' && recs.some(item => item.items.some(meal => mealCategory(meal) === 'set')) && <div className="notice">本场判决含官方套餐，暂不能直接下单。</div>}
+    {final && mode === 'live' && !recs.some(item => item.items.some(meal => mealCategory(meal) === 'set')) && (!permit || !verdict.store || recs.some(item => !item.items.length)) && <div className="notice">当前无法发起支付。可按判决中的餐品自行点餐。</div>}
+    {final && mode === 'live' && permit && verdict.store && recs.every(item => item.items.length > 0) && !recs.some(item => item.items.some(meal => mealCategory(meal) === 'set')) && <OrderPanel permit={permit} selections={participants.map(person => ({ participantId: person.id, itemIds: recs.find(item => item.participantId === person.id)?.items.map(meal => meal.id) ?? [] }))} />}
     <div className="two-col" style={{ marginTop: 14 }}><button className="chip" onClick={share}><Share2 size={14} /> 分享判决</button><button className="chip" onClick={onReset}><RotateCcw size={14} /> 重新开庭</button></div>
     <div className="notice">数据说明：{mode === 'live' ? '组合按麦当劳 MCP 返回的单品价格相加，不代表优惠套餐价。缺少价格的条目不参与搭配；营养不完整时不展示合计。' : '体验案例资料仅用于流程体验，不代表实时餐品、价格或营养信息。'}</div>
   </main>;

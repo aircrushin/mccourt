@@ -26,7 +26,7 @@ npm run dev
 2. `query-meals`，获得门店菜单、名称、商品编码、现价和分类。
 3. `list-nutrition-foods`，按餐品名称交叉匹配热量与蛋白质。
 
-其他只读能力和字段记录在 `work/mcp-tools-report.md`。`create-order`、领券和抽奖属于外部副作用，不在 MVP 中自动调用。
+其他只读能力和字段记录在 `work/mcp-tools-report.md`。`create-order`、领券和抽奖属于外部副作用，不在推荐流程中自动调用。实时判决生效后，用户可以明确确认，系统才按最近营业门店调用 `calculate-price` 与 `create-order`，并打开返回的支付链接。
 
 ## 数据真实性
 
