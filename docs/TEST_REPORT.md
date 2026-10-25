@@ -14,5 +14,15 @@
 - 真实推荐调用：通过，`POST /api/recommend` 实际调用 `query-nearby-stores`、`query-meals`、`list-nutrition-foods`，返回 88 个餐品并参与推荐
 - `npx playwright test --reporter=line`：通过，1 个核心流程用例。
 
-## 尚未执行
-- Vercel 远程部署和公开链接尚未执行。
+## 2026-10-25 线上 AI 实测
+
+- 生产域名：https://mccourt.vercel.app
+- 已部署代码：`a19ebb3`；Vercel deployment `dpl_9qqrReMjuGa77HpmE3VdXf8T9ueU`，状态 READY，生产域名已绑定。
+- 北京时间 10:55，真实 `POST /api/recommend`（mode=live）返回 HTTP 200，耗时 10.68 秒。
+- MCP 返回 88 个餐品，`toolName=query-meals`，推荐薯条 14.5 元、289 kcal、蛋白质 4 g，来源为 MCP，本次预算 20 元。
+- `judge.engine=openrouter`，`judge.model=qwen/qwen3.7-flash:nitro`，实际生成案件名“薯条预算案”及新判词，并非规则化降级。
+- 初测暴露三个问题：中文 HTTP Header 导致 ByteString 错误；动态键 JSON Schema 被模型服务拒绝（400）；默认深度思考超过 8 秒超时。已分别改为 ASCII Header、固定结构数组、关闭深度思考并设置 20 秒超时。
+- API 现在仅在 AI 生成成功时返回模型名，失败明确报告 `judge.engine=rules`，服务端保留脱敏诊断。
+- 修复后 `npm test` 通过 8 项测试（含 3 项 AI 调用/降级测试），`npm run typecheck`、`npm run lint`、`npm run build` 均通过。
+- 原始脱敏请求/响应证据：`outputs/online-ai-test-final.json`。
+- 本次没有重新执行 Playwright；修复期间使用电脑操作完成线上浏览器录入、真实 MCP 开庭与判决页面检查（该轮 AI 仍降级）。最终修复通过生产 API 验证；修复后的浏览器重测受电脑工具连接超时影响，未完成最终判词截图，不将该截图视为通过证据。

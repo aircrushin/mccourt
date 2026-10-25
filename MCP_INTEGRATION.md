@@ -45,3 +45,7 @@ OPENROUTER_SITE_URL=https://mccourt.vercel.app
 ```
 
 没有 API Key、请求超时或模型返回异常时，服务会自动使用确定性判词，不影响推荐主流程。
+
+### 线上诊断
+
+`POST /api/recommend` 返回 `judge.engine`（`openrouter` / `rules`）、`judge.model` 与降级原因。`judgeModel` 只在模型成功生成并通过结构校验时有值。判词请求使用 ASCII 应用标题、固定结构的理由数组，关闭模型默认深度思考，超时 20 秒，无自动重试。

@@ -36,3 +36,12 @@
 - 接受 Next.js 16 自动更新的 TypeScript 配置：React automatic JSX runtime 与 `.next/dev/types` 类型目录。
 - Next.js 16 默认使用 Turbopack；现有 `next dev` / `next build` 脚本无需额外参数。
 - 升级后 lint、类型检查、5 个单元测试、Playwright 核心流程和生产构建均通过。
+
+## 2026-10-25 线上 AI 验证与修复
+
+- 通过 Chrome 电脑操作走通生产站点录入、开庭和判决流程；另对生产 API 发起真实请求并检查 Vercel Runtime Logs。
+- 发现原 OpenRouter 调用静默降级：先修复非 Latin1 HTTP Header，再依据真实 HTTP 400 日志将动态键结构改为数组。
+- 结构修复后发现 8 秒超时；核对 OpenRouter 模型元数据确认默认开启深度思考，关闭后重新部署。
+- 北京时间 10:55 复测成功：MCP 88 餐品，OpenRouter 真实生成“薯条预算案”，HTTP 200 / 10.68 秒。
+- 增加真实生成来源标识与脱敏失败日志；8 项单元测试、类型检查、lint、生产构建通过。
+- 修复已提交 GitHub main 并从绑定仓库部署到 Vercel Production；未执行任何比赛报名操作。

@@ -1,0 +1,63 @@
+{
+  "testedAt": "2026-10-25T10:55:00.672035+08:00",
+  "status": 200,
+  "durationSeconds": 10.68,
+  "deployment": "dpl_9qqrReMjuGa77HpmE3VdXf8T9ueU",
+  "input": {
+    "mode": "live",
+    "partyName": "线上AI修复后验收",
+    "participants": [
+      {
+        "id": "online-test-1",
+        "name": "测试当事人",
+        "budget": 20,
+        "taste": [],
+        "goal": "",
+        "hunger": 3,
+        "request": "预算20元，想吃薯条，不能超支。"
+      }
+    ]
+  },
+  "response": {
+    "verdict": {
+      "caseNumber": "MC-2026-9289",
+      "caseName": "薯条预算案",
+      "opening": "本庭查明，当事人“测试当事人”手握20元军饷，志在薯条，且严守不超支之铁律。",
+      "opinions": [
+        "被告“薯条”标价14.5元，既满足口腹之欲，又留有零钱余量，未逾红线。依《吃货法》第20元条款，判决如下：准予入肚。"
+      ],
+      "ruling": "驳回所有关于热量（289卡）与蛋白质（4g）的无关异议。本庭维持推荐，即刻执行。",
+      "recommendations": [
+        {
+          "participantId": "online-test-1",
+          "meal": {
+            "id": "4810",
+            "name": "薯条",
+            "price": 14.5,
+            "calories": 289,
+            "protein": 4,
+            "tags": [
+              "小食",
+              "小食甜品\n/其他"
+            ],
+            "source": "麦当劳 MCP"
+          },
+          "score": 61,
+          "reason": "预算合规，心愿达成，逻辑闭环，无需多言。",
+          "constraints": [
+            "价格 14.5 元"
+          ]
+        }
+      ],
+      "live": true,
+      "sourceUpdatedAt": "2026-10-25T02:54:57.226Z"
+    },
+    "toolName": "query-meals",
+    "mealCount": 88,
+    "judgeModel": "qwen/qwen3.7-flash:nitro",
+    "judge": {
+      "engine": "openrouter",
+      "model": "qwen/qwen3.7-flash:nitro"
+    }
+  }
+}
