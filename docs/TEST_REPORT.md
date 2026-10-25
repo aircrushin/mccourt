@@ -33,4 +33,10 @@
 - `PLAYWRIGHT_PORT=3100 OPENROUTER_API_KEY='' npx playwright test --reporter=line`：2 项通过，覆盖体验案例与 390px 手机端组合、采用备选、上诉降价、其他参与者保持不变、总价和无横向溢出。该 E2E 使用固定体验资料，不作为实时 MCP 或模型成功证据。
 - 真实 MCP 适配器测试返回 88 个餐品，当前引擎用真实价格生成组合并通过预算与总价一致性断言。
 - 组合截图：`outputs/combinations-mobile.png`。
-- 最终生产部署与模型组合验证结果见后续记录。
+- 最终 `npm run lint`、`npm run typecheck`、`npm run build` 均通过。
+- Production 已部署 `9186141`，Vercel `dpl_F1sy3bMjdrEA82HxYsM224pYS6m9` 状态 READY，生产域名已绑定。
+- 2026-10-25T11:11:59.395714+08:00 真实生产组合请求：HTTP 200，12.49 秒，MCP 88 餐品，`judge.engine=openrouter`，模型 `qwen/qwen3.7-flash:nitro`。
+- 50 元预算：枫糖风味厚松饼猪柳堡 + 薯条 + 雪碧，总价 45 元；备选 33.5 元（不含饮品）与 45.5 元（更换主食），均在预算内。
+- 70 元、饥饿程度 5：双层吉士汉堡 + 麦香鸡 + 脆薯饼 + 黄金橙橙，总价 70 元；预算与组成项总价一致性断言通过。
+- 真实生产“太贵了”上诉：HTTP 200，5.66 秒，由 45 元降为 33.5 元，未虚构优惠或价格。
+- 原始脱敏响应证据：`outputs/combinations-online-test.json`。
