@@ -16,16 +16,19 @@ describe('OpenRouter judge', () => {
   });
   it('sends valid headers, parses structured copy and preserves meal facts', async () => {
     vi.stubEnv('OPENROUTER_API_KEY','test-key');
-    const copy={caseName:'薯条自由案',opening:'本庭开庭。',opinions:['钱包应当得到保护。'],ruling:'本庭准许合理享用薯条。',reasons:{p1:'薯条诉求获得支持。'}};
+    const copy={caseName:'薯条自由案',opening:'本庭开庭。',opinions:['钱包应当得到保护。'],ruling:'本庭准许合理享用薯条。',reasons:[{participantId:'p1',reason:'薯条诉求获得支持。'}]};
     const fetchMock=vi.fn(async (_url, init) => {
       const headers=new Headers(init?.headers);
       expect(headers.get('X-Title')).toBe('McCourt');
       expect(headers.get('Authorization')).toBe('Bearer test-key');
+      const body=JSON.parse(String(init?.body));
+      expect(JSON.stringify(body.response_format)).not.toMatch(/propertyNames|patternProperties/);
       return Response.json({id:'test-generation',model:'test-model',created:1,choices:[{index:0,message:{role:'assistant',content:JSON.stringify(copy)},finish_reason:'stop'}],usage:{prompt_tokens:10,completion_tokens:20,total_tokens:30}});
     }); vi.stubGlobal('fetch',fetchMock);
     const result=await enrichVerdictWithOpenRouter(base,participants,base.recommendations);
     expect(fetchMock).toHaveBeenCalledOnce(); expect(result.judge.engine).toBe('openrouter');
     expect(result.verdict.caseName).toBe(copy.caseName);
+    expect(result.verdict.recommendations[0].reason).toBe(copy.reasons[0].reason);
     expect(result.verdict.recommendations[0].meal).toEqual(base.recommendations[0].meal);
   });
   it('reports fallback when provider fails without exposing its error body', async () => {

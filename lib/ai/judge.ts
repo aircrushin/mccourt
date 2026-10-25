@@ -10,7 +10,7 @@ const JudgeCopySchema = z.object({
   opening: z.string().min(1).max(240),
   opinions: z.array(z.string().min(1).max(160)).min(1).max(4),
   ruling: z.string().min(1).max(260),
-  reasons: z.record(z.string(), z.string().min(1).max(180)),
+  reasons: z.array(z.object({ participantId: z.string(), reason: z.string().min(1).max(180) })).min(1).max(4),
 });
 
 type JudgeCopy = z.infer<typeof JudgeCopySchema>;
@@ -61,7 +61,7 @@ export async function enrichVerdictWithOpenRouter(
       maxOutputTokens: 800,
       maxRetries: 0,
       system: '你是麦门人民法院的大法官。只负责把已验证事实写成简短、幽默、克制的中文判词。不得创造餐品名称、价格、营养值、优惠或来源。不得改变推荐结果。',
-      prompt: `根据以下已验证事实生成判词文案。reasons 的 key 必须使用 participantId。\n${JSON.stringify(facts, null, 2)}`,
+      prompt: `根据以下已验证事实生成简短判词文案。reasons 数组中每人一项，participantId 必须与输入一致。\n${JSON.stringify(facts, null, 2)}`,
     });
     if (!output) throw new Error('No judge output');
     return { verdict: mergeJudgeCopy(verdict, output, recommendations), judge: { engine: 'openrouter', model: OPENROUTER_MODEL } };
@@ -80,7 +80,7 @@ export async function enrichVerdictWithOpenRouter(
 }
 
 function mergeJudgeCopy(verdict: Verdict, copy: JudgeCopy, recommendations: Recommendation[]): Verdict {
-  const reasons = new Map(Object.entries(copy.reasons));
+  const reasons = new Map(copy.reasons.map((entry) => [entry.participantId, entry.reason]));
   return {
     ...verdict,
     caseName: copy.caseName,
