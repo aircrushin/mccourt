@@ -14,6 +14,7 @@ const JudgeCopySchema = z.object({
 });
 
 type JudgeCopy = z.infer<typeof JudgeCopySchema>;
+type JudgeResult = { verdict: Verdict; judge: { engine: 'openrouter' | 'rules'; model: string | null; reason?: 'not_configured' | 'generation_failed' } };
 
 function hasOpenRouterKey() {
   return Boolean(process.env.OPENROUTER_API_KEY?.trim());
@@ -23,16 +24,17 @@ export async function enrichVerdictWithOpenRouter(
   verdict: Verdict,
   participants: Participant[],
   recommendations: Recommendation[],
-): Promise<Verdict> {
-  if (!hasOpenRouterKey()) return verdict;
+): Promise<JudgeResult> {
+  if (!hasOpenRouterKey()) return { verdict, judge: { engine: 'rules', model: null, reason: 'not_configured' } };
 
   const provider = createOpenAICompatible({
     name: 'openrouter',
     baseURL: 'https://openrouter.ai/api/v1',
     apiKey: process.env.OPENROUTER_API_KEY,
+    supportsStructuredOutputs: true,
     headers: {
       'HTTP-Referer': process.env.OPENROUTER_SITE_URL || 'https://mccourt.vercel.app',
-      'X-Title': 'McCourt 麦门法庭',
+      'X-Title': 'McCourt',
     },
   });
 
@@ -56,13 +58,16 @@ export async function enrichVerdictWithOpenRouter(
       model: provider.chatModel(OPENROUTER_MODEL),
       output: Output.object({ schema: JudgeCopySchema }),
       abortSignal: AbortSignal.timeout(8000),
+      maxOutputTokens: 800,
+      maxRetries: 0,
       system: '你是麦门人民法院的大法官。只负责把已验证事实写成简短、幽默、克制的中文判词。不得创造餐品名称、价格、营养值、优惠或来源。不得改变推荐结果。',
       prompt: `根据以下已验证事实生成判词文案。reasons 的 key 必须使用 participantId。\n${JSON.stringify(facts, null, 2)}`,
     });
-    if (!output) return verdict;
-    return mergeJudgeCopy(verdict, output, recommendations);
+    if (!output) throw new Error('No judge output');
+    return { verdict: mergeJudgeCopy(verdict, output, recommendations), judge: { engine: 'openrouter', model: OPENROUTER_MODEL } };
   } catch {
-    return verdict;
+    console.warn('McCourt judge generation failed; using rules');
+    return { verdict, judge: { engine: 'rules', model: null, reason: 'generation_failed' } };
   }
 }
 
