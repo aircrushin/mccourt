@@ -1,4 +1,5 @@
 import { couponsForMeal, parseCoupons, toolPayload } from './coupons';
+import { parseMyCoupons } from './my-coupons';
 import { parseCreatedOrder, parseMcpRpc, parsePriceQuote, readToolData, selectionsFromMealDetail } from './order-price';
 import { pickNearestOpenStore, placeFromGeocode, type NearbyStore } from './stores';
 import type { CourtStore, Meal } from '@/lib/types/index';
@@ -163,6 +164,15 @@ export async function placePickupOrder(storeCode: string, items: Array<{ product
   if (!quote.takeWays.some(way => way.code === takeWayCode)) throw new Error('请选择列出的取餐方式。');
   const created = await rpc({ jsonrpc:'2.0', id:9, method:'tools/call', params:{ name:'create-order', arguments:{ storeCode, orderType:1, beType:1, takeWayCode, items:prepared.items } } }, priced.sessionId, 35000);
   return parseCreatedOrder(readToolData(created.result));
+}
+
+export async function fetchMyCoupons(page = 1) {
+  const discovered = await discoverMcpTools();
+  if (!discovered.live) throw new Error('券包服务尚未配置。');
+  const response = await rpc({ jsonrpc:'2.0', id:6, method:'tools/call', params:{
+    name:'query-my-coupons', arguments:{ page:String(page), pageSize:'20' },
+  } }, discovered.sessionId);
+  return { ...parseMyCoupons(response.result), updatedAt: new Date().toISOString() };
 }
 
 export async function fetchAvailableCoupons() {

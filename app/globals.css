@@ -147,3 +147,31 @@ button:focus-visible, summary:focus-visible { outline: 3px solid var(--red); out
 .order-panel .cta { margin-top: 12px; text-decoration: none; }
 .order-panel .source-note { display: block; margin-top: 10px; }
 .take-ways { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+.wallet-entry { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 20px; padding: 16px 0; border-block: 2px dashed var(--brown); color: var(--ink); text-decoration: none; }
+.wallet-entry strong { display: block; font-size: 17px; }
+.wallet-entry small { display: block; margin-top: 6px; color: var(--brown); font-size: 12px; }
+.wallet-entry:hover strong { text-decoration: underline; text-underline-offset: 4px; }
+.wallet-entry:focus-visible, .wallet-page a:focus-visible { outline: 3px solid var(--red); outline-offset: 4px; }
+.wallet-page .page-title { line-height: 1.15; margin-block: 14px; }
+.wallet-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; font-size: 13px; font-weight: 700; }
+.wallet-list { border-top: 2px solid var(--ink); }
+.wallet-coupon { padding: 22px 0 16px; border-bottom: 2px dashed var(--brown); }
+.wallet-coupon-top { display: flex; align-items: flex-start; gap: 16px; }
+.wallet-image { width: clamp(80px, 22vw, 128px); flex-shrink: 0; aspect-ratio: 1; display: grid; place-items: center; background: var(--cream); border-radius: 12px; overflow: hidden; }
+.wallet-image img { width: 100%; height: 100%; object-fit: contain; }
+.wallet-image span { display: grid; justify-items: center; gap: 8px; font-size: 11px; color: var(--brown); }
+.wallet-coupon-title { min-width: 0; overflow-wrap: anywhere; }
+.wallet-coupon h2 { font-size: clamp(17px, 4.5vw, 22px); line-height: 1.4; margin: 0 0 8px; }
+.wallet-coupon-title > p { font-size: 12px; line-height: 1.5; }
+.wallet-discount { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin: 10px 0; }
+.wallet-discount strong { font: 800 clamp(20px, 5vw, 26px) 'DM Mono', monospace; color: var(--red); }
+.wallet-discount span { color: var(--brown); }
+.wallet-validity { font-size: 12px; line-height: 1.7; margin: 14px 0 8px; overflow-wrap: anywhere; }
+.wallet-restrictions { padding-left: 18px; margin: 8px 0; font-size: 12px; line-height: 1.7; }
+.wallet-loading, .wallet-empty { padding: 38px 0; text-align: center; color: var(--brown); font-size: 13px; line-height: 1.7; }
+.wallet-loading > svg, .wallet-empty > svg { margin: 0 auto; }
+.wallet-empty h2 { font-size: 18px; color: var(--ink); }
+.wallet-pagination { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 22px; font-size: 12px; }
+.wallet-pagination button { min-height: 44px; }
+.wallet-source { margin-top: 24px; }
