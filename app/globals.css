@@ -16,6 +16,8 @@ html { background: var(--cream); }
 body { margin: 0; color: var(--ink); background: var(--cream); font-family: 'Space Grotesk', sans-serif; }
 button, input, textarea, select { font: inherit; }
 button { cursor: pointer; }
+.chip, .cta, .text-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.chip > svg, .cta > svg, .text-btn > svg, .appeal-row button > svg { flex-shrink: 0; }
 ::selection { background: var(--yellow); color: var(--ink); }
 
 .app-shell { min-height: 100svh; overflow-x: hidden; background: var(--cream); }
