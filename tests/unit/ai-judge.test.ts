@@ -23,6 +23,7 @@ describe('OpenRouter judge', () => {
       expect(headers.get('Authorization')).toBe('Bearer test-key');
       const body=JSON.parse(String(init?.body));
       expect(JSON.stringify(body.response_format)).not.toMatch(/propertyNames|patternProperties/);
+      expect(body.reasoning).toEqual({enabled:false});
       return Response.json({id:'test-generation',model:'test-model',created:1,choices:[{index:0,message:{role:'assistant',content:JSON.stringify(copy)},finish_reason:'stop'}],usage:{prompt_tokens:10,completion_tokens:20,total_tokens:30}});
     }); vi.stubGlobal('fetch',fetchMock);
     const result=await enrichVerdictWithOpenRouter(base,participants,base.recommendations);

@@ -57,9 +57,10 @@ export async function enrichVerdictWithOpenRouter(
     const { output } = await generateText({
       model: provider.chatModel(OPENROUTER_MODEL),
       output: Output.object({ schema: JudgeCopySchema }),
-      abortSignal: AbortSignal.timeout(8000),
-      maxOutputTokens: 800,
+      abortSignal: AbortSignal.timeout(20000),
+      maxOutputTokens: 1200,
       maxRetries: 0,
+      providerOptions: { openrouter: { reasoning: { enabled: false } } },
       system: '你是麦门人民法院的大法官。只负责把已验证事实写成简短、幽默、克制的中文判词。不得创造餐品名称、价格、营养值、优惠或来源。不得改变推荐结果。',
       prompt: `根据以下已验证事实生成简短判词文案。reasons 数组中每人一项，participantId 必须与输入一致。\n${JSON.stringify(facts, null, 2)}`,
     });
