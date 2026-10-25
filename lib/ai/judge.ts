@@ -66,9 +66,14 @@ export async function enrichVerdictWithOpenRouter(
     if (!output) throw new Error('No judge output');
     return { verdict: mergeJudgeCopy(verdict, output, recommendations), judge: { engine: 'openrouter', model: OPENROUTER_MODEL } };
   } catch (error) {
-    const failure = error as { name?: string; statusCode?: number; message?: string };
+    const failure = error as { name?: string; statusCode?: number; message?: string; responseBody?: string };
     const key = process.env.OPENROUTER_API_KEY?.trim();
-    const diagnostic = (failure.message || 'Unknown failure').replaceAll(key || 'no-key-placeholder', '[REDACTED]').slice(0, 240);
+    let providerMessage = failure.message || 'Unknown failure';
+    try {
+      const detail = JSON.parse(failure.responseBody || '{}').error;
+      providerMessage = detail?.metadata?.raw || detail?.message || providerMessage;
+    } catch { /* Keep the generic SDK diagnostic for non-JSON failures. */ }
+    const diagnostic = String(providerMessage).replaceAll(key || 'no-key-placeholder', '[REDACTED]').slice(0, 500);
     console.warn('McCourt judge generation failed; using rules', { name: failure.name, status: failure.statusCode, diagnostic });
     return { verdict, judge: { engine: 'rules', model: null, reason: 'generation_failed' } };
   }
