@@ -83,7 +83,7 @@ export async function fetchMeals(): Promise<{ meals: Meal[]; live: boolean; warn
       const nutrition = await rpc({ jsonrpc:'2.0', id:5, method:'tools/call', params:{ name:'list-nutrition-foods', arguments:{} } }, menu.sessionId);
       const rows = nutritionRows(nutrition.result);
       meals = meals.map((meal) => {
-        const match = rows.find((row) => row.name === meal.name || meal.name.includes(row.name) || row.name.includes(meal.name));
+        const match = rows.find((row) => row.name === meal.name);
         return match ? { ...meal, calories:match.calories, protein:match.protein } : meal;
       });
     } catch { /* nutrition is optional; missing fields stay null and are shown as unavailable */ }

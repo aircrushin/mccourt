@@ -115,3 +115,33 @@ button { cursor: pointer; }
 .notice { border:2px dashed var(--brown); border-radius:11px; padding:11px; margin-top:16px; font-size:12px; line-height:1.4; background: color-mix(in oklab, var(--yellow) 30%, var(--cream)); }
 @media (min-width: 700px) { .shell { padding-top: 28px; } .hero { padding-top: 58px; } }
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }
+
+.receipt-items { list-style: none; padding: 0; margin: 18px 0 0; }
+.receipt-items li { display: flex; gap: 10px; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed var(--brown); }
+.receipt-items li > div { min-width: 0; }
+.receipt-items strong { display: block; font-size: 15px; line-height: 1.45; overflow-wrap: anywhere; }
+.receipt-items small { display: block; font-size: 10px; color: var(--brown); margin-top: 4px; }
+.food-category { font-size: 10px; color: var(--brown); }
+.item-price { font: 12px 'DM Mono', monospace; white-space: nowrap; padding-top: 17px; }
+.combo-total { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 16px 0 4px; font-weight: 700; }
+.combo-total strong { font: 800 25px 'DM Mono', monospace; color: var(--red); white-space: nowrap; }
+.combo-limitations { padding-left: 18px; font-size: 11px; line-height: 1.7; color: var(--brown); }
+.alternatives { border-top: 2px dashed var(--ink); padding-top: 14px; margin-top: 16px; }
+.alternatives summary { cursor: pointer; min-height: 44px; font-weight: 800; }
+.alternative { padding: 10px 0 18px; border-bottom: 1px dashed var(--brown); }
+.alternative:last-child { border-bottom: 0; }
+.alternative h4 { font-size: 12px; margin: 0; color: var(--brown); }
+.compact .receipt-items { margin-top: 0; }
+.compact .combo-total strong { font-size: 20px; }
+.party-total { display: flex; gap: 12px; align-items: center; justify-content: space-between; margin-top: 24px; padding: 18px 0; border-block: 2px solid var(--ink); font-weight: 800; }
+.party-total small, .ruling small { display: block; margin-top: 7px; font-size: 10px; font-weight: 400; }
+.party-total strong { font: 800 clamp(17px, 5vw, 26px) 'DM Mono', monospace; white-space: nowrap; }
+.appeal-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.appeal-row button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; }
+button:disabled { cursor: wait; opacity: .55; }
+button:focus-visible, summary:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+.reco-name { margin: 8px 0; line-height: 1.25; }
+
+.custom-appeal { width: 100%; display: grid; gap: 8px; }
+.custom-appeal label { font-size: 12px; font-weight: 700; }
+.custom-appeal button { justify-self: start; min-height: 44px; }

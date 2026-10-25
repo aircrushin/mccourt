@@ -44,11 +44,11 @@ export async function enrichVerdictWithOpenRouter(
     recommendations: recommendations.map((r) => ({
       participantId: r.participantId,
       participantName: participants.find((p) => p.id === r.participantId)?.name,
-      mealName: r.meal?.name ?? null,
-      price: r.meal?.price ?? null,
-      calories: r.meal?.calories ?? null,
-      protein: r.meal?.protein ?? null,
-      source: r.meal?.source ?? null,
+      items: r.items.map(({ id, name, price, calories, protein, source }) => ({ id, name, price, calories, protein, source })),
+      totalPrice: r.totalPrice,
+      totalCalories: r.calories,
+      totalProtein: r.protein,
+      constraints: r.constraints,
       reason: r.reason,
     })),
   };
@@ -61,7 +61,7 @@ export async function enrichVerdictWithOpenRouter(
       maxOutputTokens: 1200,
       maxRetries: 0,
       providerOptions: { openrouter: { reasoning: { enabled: false } } },
-      system: '你是麦门人民法院的大法官。只负责把已验证事实写成简短、幽默、克制的中文判词。不得创造餐品名称、价格、营养值、优惠或来源。不得改变推荐结果。',
+      system: '你是麦门人民法院的大法官。只负责把已验证事实写成简短、幽默、克制的中文判词。不得创造餐品名称、价格、营养值、优惠或来源。不得改变组合、总价或推荐结果；营养总量为空时不得猜测。',
       prompt: `根据以下已验证事实生成简短判词文案。reasons 数组中每人一项，participantId 必须与输入一致。\n${JSON.stringify(facts, null, 2)}`,
     });
     if (!output) throw new Error('No judge output');

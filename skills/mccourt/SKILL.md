@@ -1,6 +1,5 @@
 ---
 name: mccourt
-version: 0.1.0
 description: 将多人麦当劳点餐争议转成可验证餐品推荐与趣味法庭判决。
 ---
 
@@ -35,19 +34,33 @@ description: 将多人麦当劳点餐争议转成可验证餐品推荐与趣味�
 
 1. 校验参与者数量、预算和诉求。
 2. Live 模式连接 `https://mcp.mcd.cn`，动态初始化并调用上述只读工具。
-3. 先过滤硬约束，再按口味 30%、目标 25%、预算 20%、饥饿 15%、多样性 10% 评分。
-4. 缺少价格或营养字段时保留空值并降低结论确定性，禁止猜测。
+3. 复用 `lib/court/recommend.ts` 的 `recommend()`。按每人预算枚举主食、小食、饮品组合，饥饿程度较高时最多两份不同主食，返回最优及最多两个不同备选。评分考虑类别搭配、饥饿程度、诉求、已知营养和预算效率；不声称精确饱腹预测。
+4. 缺少价格的条目不进入预算内组合；营养总量仅在所有组成项都有对应字段时计算，否则为 null。套餐保持整体，不推测内容；排除周边、独立酱料与内容不明的任选条目。
 5. 生成案件编号、审理意见、逐人推荐和证据来源。
-6. 上诉最多三轮，只重算上诉人，其余推荐保持不变。
+6. 调用 `/api/appeal` 时携带 `participant`、`reason`、`previousItemIds`、`mode`。太贵要求严格更低总价，不够饱要求增加类别估计的食物量；无解时保留原推荐。前端最多三轮，只替换上诉人。
+
+运行网站后，可直接 POST `/api/recommend` 使用相同输入获得结果，无需操作 UI。该 API 与上诉 API 复用上述引擎及实际 MCP Adapter，不另造菜单或价格。
 
 ## 输出 Schema
+
+以下仅展示字段形状，不作为实时菜单资料。
 
 ```json
 {
   "caseNumber":"MC-2026-1234",
   "caseName":"午餐争议案",
   "recommendations":[
-    {"participantId":"p1","meal":{"name":"薯条","price":14.5,"calories":289,"protein":4,"source":"麦当劳 MCP"},"reason":"..."}
+    {
+      "participantId":"p1",
+      "items":[{"id":"4810","name":"薯条","price":14.5,"calories":289,"protein":4,"tags":["小食"],"source":"麦当劳 MCP"}],
+      "totalPrice":14.5,
+      "calories":289,
+      "protein":4,
+      "score":80,
+      "reason":"示意判词，实际结果由引擎生成",
+      "constraints":["预算不足以同时搭配主食、小食和饮品时，说明缺口"],
+      "alternatives":[]
+    }
   ],
   "live":true,
   "sourceUpdatedAt":"2026-10-24T07:00:00.000Z"

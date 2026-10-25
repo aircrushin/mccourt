@@ -1,19 +1,38 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 import { ParticipantSchema } from '@/lib/types/index';
 import { fetchMeals } from '@/lib/mcd/adapter';
-import { recommend } from '@/lib/court/recommend';
+import { combinationKey, foodUnits, recommend } from '@/lib/court/recommend';
+import { demoMeals } from '@/lib/court/demo-meals';
+
+const AppealSchema = z.object({
+  participant: ParticipantSchema,
+  reason: z.string().trim().min(1).max(180),
+  previousItemIds: z.array(z.string()).max(4).default([]),
+  mode: z.enum(['live', 'demo']).default('live'),
+});
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const participant = ParticipantSchema.parse({ ...body.participant, request: body.reason || body.participant?.request });
-    const mcp = body.mode === 'demo' ? { meals: [
-      { id:'demo-burger', name:'经典牛肉汉堡（体验案例）', price:18, calories:420, protein:20, tags:['肉','饱腹'], source:'体验案例资料' },
-      { id:'demo-chicken', name:'香辣鸡腿堡（体验案例）', price:22, calories:510, protein:25, tags:['鸡肉','蛋白质'], source:'体验案例资料' },
-      { id:'demo-fries', name:'薯条（体验案例）', price:12, calories:320, protein:4, tags:['薯条','快乐'], source:'体验案例资料' },
-      { id:'demo-salad', name:'清爽沙拉（体验案例）', price:16, calories:210, protein:8, tags:['低卡','控制热量'], source:'体验案例资料' },
-    ], live:false } : await fetchMeals();
-    const [result] = recommend([participant], mcp.meals);
-    return NextResponse.json({ recommendation:result, live:mcp.live, warning:'warning' in mcp ? (mcp.warning ?? null) : null });
-  } catch (error) { return NextResponse.json({ error:error instanceof Error ? error.message : '上诉处理失败' }, { status:500 }); }
+    const parsed = AppealSchema.safeParse(await request.json());
+    if (!parsed.success) return NextResponse.json({ error: '上诉请求格式不正确' }, { status: 400 });
+    const { participant, reason, previousItemIds, mode } = parsed.data;
+    const mcp = mode === 'demo' ? { meals: demoMeals, live: false, warning: '体验资料，不代表实时价格。' } : await fetchMeals();
+    const previous = previousItemIds.map(id => mcp.meals.find(m => m.id === id)).filter(m => m != null);
+    const verifiedPrevious = previous.length > 0 && previous.length === previousItemIds.length;
+    const previousTotal = verifiedPrevious && previous.every(m => m.price != null) ? previous.reduce((sum, m) => sum + m.price!, 0) : null;
+    const [recommendation] = recommend([{
+      ...participant,
+      hunger: /不够饱/.test(reason) ? Math.min(5, participant.hunger + 1) : participant.hunger,
+      request: `${participant.request}；上诉：${reason}`,
+    }], mcp.meals, {
+      excludeCombination: verifiedPrevious ? [combinationKey(previous)] : [],
+      maxTotalExclusive: /太贵/.test(reason) && previousTotal != null ? previousTotal : undefined,
+      minFoodUnitsExclusive: /不够饱/.test(reason) && verifiedPrevious ? foodUnits(previous) : undefined,
+    });
+    return NextResponse.json({ recommendation, live: mcp.live, updatedAt: 'updatedAt' in mcp ? mcp.updatedAt : null,
+      warning: mcp.warning ?? null,
+      message: recommendation.items.length ? null : '当前预算和可验证餐品无法提供符合上诉要求的替换组合，原方案已保留。',
+    });
+  } catch { return NextResponse.json({ error: '上诉处理失败，请稍后重试。' }, { status: 500 }); }
 }

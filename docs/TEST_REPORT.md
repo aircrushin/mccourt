@@ -26,3 +26,11 @@
 - 修复后 `npm test` 通过 8 项测试（含 3 项 AI 调用/降级测试），`npm run typecheck`、`npm run lint`、`npm run build` 均通过。
 - 原始脱敏请求/响应证据：`outputs/online-ai-test-final.json`。
 - 本次没有重新执行 Playwright；修复期间使用电脑操作完成线上浏览器录入、真实 MCP 开庭与判决页面检查（该轮 AI 仍降级）。最终修复通过生产 API 验证；修复后的浏览器重测受电脑工具连接超时影响，未完成最终判词截图，不将该截图视为通过证据。
+
+## 2026-10-25 组合推荐升级
+
+- `npm test`：22 项通过，其中包含 10 项当前组合引擎测试、4 项上诉 API 测试、3 项 AI 调用测试、5 项原有测试。
+- `PLAYWRIGHT_PORT=3100 OPENROUTER_API_KEY='' npx playwright test --reporter=line`：2 项通过，覆盖体验案例与 390px 手机端组合、采用备选、上诉降价、其他参与者保持不变、总价和无横向溢出。该 E2E 使用固定体验资料，不作为实时 MCP 或模型成功证据。
+- 真实 MCP 适配器测试返回 88 个餐品，当前引擎用真实价格生成组合并通过预算与总价一致性断言。
+- 组合截图：`outputs/combinations-mobile.png`。
+- 最终生产部署与模型组合验证结果见后续记录。

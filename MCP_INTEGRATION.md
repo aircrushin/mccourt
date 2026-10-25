@@ -49,3 +49,7 @@ OPENROUTER_SITE_URL=https://mccourt.vercel.app
 ### 线上诊断
 
 `POST /api/recommend` 返回 `judge.engine`（`openrouter` / `rules`）、`judge.model` 与降级原因。`judgeModel` 只在模型成功生成并通过结构校验时有值。判词请求使用 ASCII 应用标题、固定结构的理由数组，关闭模型默认深度思考，超时 20 秒，无自动重试。
+
+### 组合推荐数据
+
+推荐返回 `items[]`、`totalPrice`、`calories`、`protein`、`alternatives[]`。组合总价以各组成项的 MCP 已知价格相加，缺价格不参与；营养值使用精确名称匹配，缺任何组成项对应营养时该项合计为 null。模型只接收引擎选出的组合、总价和限制说明，不得改动结构化餐品与金额。
