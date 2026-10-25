@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { placePickupOrder, quotePickup } from '@/lib/mcd/adapter';
 import { readOrderPermit, resolveSelection } from '@/lib/court/order-permit';
 
+export const maxDuration = 60;
+
 const OrderSchema = z.object({
   payload: z.string().min(1).max(12000),
   signature: z.string().min(1).max(200),
@@ -40,7 +42,16 @@ function sameOrigin(request: Request) {
 
 function publicError(error: unknown) {
   const message = error instanceof Error ? error.message : '';
-  return SAFE_ERRORS.find(item => message.includes(item)) ?? '暂时无法完成点餐，请稍后重试。';
+  const safe = SAFE_ERRORS.find(item => message.includes(item));
+  if (safe) return safe;
+  if (/aborted|timeout|timed out/i.test(message)) return '麦当劳下单响应超时，请再试一次。';
+  const business = message.replace(/^MCP (?:HTTP )?-?\d+:\s*/, '').trim();
+  if (business && business.length <= 40 && /^[\u4e00-\u9fff，。！？、]+$/.test(business)) {
+    console.warn(`[order] ${business}`);
+    return business;
+  }
+  if (message) console.warn(`[order] ${message.replace(/Bearer\s+\S+/gi, 'Bearer [redacted]').slice(0, 180)}`);
+  return '暂时无法完成点餐，请稍后重试。';
 }
 
 export async function POST(request: Request) {
@@ -51,12 +62,9 @@ export async function POST(request: Request) {
   try {
     const permit = readOrderPermit(parsed.data.payload, parsed.data.signature);
     const items = resolveSelection(permit, parsed.data.selections).map(({ productCode, quantity }) => ({ productCode, quantity }));
-    const quote = await quotePickup(permit.storeCode, items);
     if (!parsed.data.takeWayCode) {
+      const quote = await quotePickup(permit.storeCode, items);
       return NextResponse.json({ quote: { ...quote, store: { storeName: permit.storeName, address: permit.address, distance: permit.distance } } });
-    }
-    if (!quote.takeWays.some(way => way.code === parsed.data.takeWayCode)) {
-      return NextResponse.json({ error: '请选择列出的取餐方式。' }, { status: 400 });
     }
     const order = await placePickupOrder(permit.storeCode, items, parsed.data.takeWayCode);
     return NextResponse.json({ order });

@@ -1,26 +1,24 @@
 import { couponsForMeal, parseCoupons, toolPayload } from './coupons';
-import { parseCreatedOrder, parsePriceQuote } from './order-price';
+import { parseCreatedOrder, parseMcpRpc, parsePriceQuote, readToolData, selectionsFromMealDetail } from './order-price';
 import { pickNearestOpenStore, placeFromGeocode, type NearbyStore } from './stores';
 import type { CourtStore, Meal } from '@/lib/types/index';
 
 export type MealLookup = { latitude?: number; longitude?: number; city?: string; keyword?: string; storeCode?: string };
 export type MealCatalog = { meals: Meal[]; live: boolean; warning?: string; updatedAt: string | null; toolName?: string; store: CourtStore | null };
 
-type JsonRpc = { jsonrpc: '2.0'; id: number; result?: any; error?: { code: number; message: string } };
 const MCP_URL = 'https://mcp.mcd.cn';
 const token = () => process.env.MCD_MCP_TOKEN?.trim();
 
-async function rpc(body: Record<string, unknown>, sessionId?: string) {
+async function rpc(body: Record<string, unknown>, sessionId?: string, timeoutMs = 20000) {
   const headers: Record<string,string> = { 'content-type': 'application/json', accept: 'application/json, text/event-stream' };
   if (token()) headers.authorization = `Bearer ${token()}`;
   if (sessionId) headers['mcp-session-id'] = sessionId;
-  const response = await fetch(MCP_URL, { method: 'POST', headers, body: JSON.stringify(body), signal: AbortSignal.timeout(15000), cache: 'no-store' });
+  const response = await fetch(MCP_URL, { method: 'POST', headers, body: JSON.stringify(body), signal: AbortSignal.timeout(timeoutMs), cache: 'no-store' });
   const nextSession = response.headers.get('mcp-session-id') ?? sessionId;
   const text = await response.text();
   if (!response.ok) throw new Error(`MCP HTTP ${response.status}`);
-  const jsonLine = text.split('\n').find((line) => line.startsWith('data: '))?.slice(6) ?? text;
-  let parsed: JsonRpc;
-  try { parsed = JSON.parse(jsonLine); } catch { throw new Error('MCP returned an unreadable response'); }
+  let parsed: { result?: any; error?: { code: number; message: string } };
+  try { parsed = parseMcpRpc(text); } catch { throw new Error('MCP returned an unreadable response'); }
   if (parsed.error) throw new Error(`MCP ${parsed.error.code}: ${parsed.error.message}`);
   return { result: parsed.result, sessionId: nextSession };
 }
@@ -42,7 +40,7 @@ export async function discoverMcpTools() {
   if (!token()) return { live: false, tools: [], reason: 'MCD_MCP_TOKEN 未配置' };
   const init = await rpc({ jsonrpc:'2.0', id:1, method:'initialize', params:{ protocolVersion:'2025-03-26', capabilities:{}, clientInfo:{ name:'McCourt', version:'0.1.0' } } });
   const listed = await rpc({ jsonrpc:'2.0', id:2, method:'tools/list', params:{} }, init.sessionId);
-  return { live: true, tools: (listed.result?.tools ?? []).map((t:any) => ({ name:t.name, description:t.description, inputSchema:t.inputSchema })), sessionId:init.sessionId };
+  return { live: true, tools: (listed.result?.tools ?? []).map((t:any) => ({ name:t.name, description:t.description, inputSchema:t.inputSchema })), sessionId:listed.sessionId ?? init.sessionId };
 }
 
 
@@ -137,14 +135,34 @@ export async function quotePickup(storeCode: string, items: Array<{ productCode:
   const discovered = await discoverMcpTools();
   if (!discovered.live) throw new Error('暂时无法向麦当劳确认价格。');
   const response = await rpc({ jsonrpc:'2.0', id:8, method:'tools/call', params:{ name:'calculate-price', arguments:{ storeCode, orderType:1, beType:1, items } } }, discovered.sessionId);
-  return parsePriceQuote(resultData(response.result));
+  return parsePriceQuote(readToolData(response.result));
+}
+
+async function orderItems(sessionId: string | undefined, storeCode: string, items: Array<{ productCode: string; quantity: number }>) {
+  const prepared = [];
+  let session = sessionId;
+  for (const item of items) {
+    try {
+      const detail = await rpc({ jsonrpc:'2.0', id:10, method:'tools/call', params:{ name:'query-meal-detail', arguments:{ storeCode, orderType:1, beType:1, code:item.productCode } } }, session, 12000);
+      session = detail.sessionId;
+      prepared.push({ productCode: item.productCode, quantity: item.quantity, ...selectionsFromMealDetail(readToolData(detail.result)) });
+    } catch {
+      prepared.push({ productCode: item.productCode, quantity: item.quantity });
+    }
+  }
+  return { items: prepared, sessionId: session };
 }
 
 export async function placePickupOrder(storeCode: string, items: Array<{ productCode: string; quantity: number }>, takeWayCode: string) {
-  const discovered = await discoverMcpTools();
-  if (!discovered.live) throw new Error('暂时无法创建订单。');
-  const response = await rpc({ jsonrpc:'2.0', id:9, method:'tools/call', params:{ name:'create-order', arguments:{ storeCode, orderType:1, beType:1, takeWayCode, needTableware:false, items } } }, discovered.sessionId);
-  return parseCreatedOrder(resultData(response.result));
+  if (!token()) throw new Error('暂时无法创建订单。');
+  const init = await rpc({ jsonrpc:'2.0', id:1, method:'initialize', params:{ protocolVersion:'2025-03-26', capabilities:{}, clientInfo:{ name:'McCourt', version:'0.1.0' } } });
+  const listed = await rpc({ jsonrpc:'2.0', id:2, method:'tools/list', params:{} }, init.sessionId);
+  const prepared = await orderItems(listed.sessionId ?? init.sessionId, storeCode, items);
+  const priced = await rpc({ jsonrpc:'2.0', id:8, method:'tools/call', params:{ name:'calculate-price', arguments:{ storeCode, orderType:1, beType:1, items:prepared.items } } }, prepared.sessionId);
+  const quote = parsePriceQuote(readToolData(priced.result));
+  if (!quote.takeWays.some(way => way.code === takeWayCode)) throw new Error('请选择列出的取餐方式。');
+  const created = await rpc({ jsonrpc:'2.0', id:9, method:'tools/call', params:{ name:'create-order', arguments:{ storeCode, orderType:1, beType:1, takeWayCode, items:prepared.items } } }, priced.sessionId, 35000);
+  return parseCreatedOrder(readToolData(created.result));
 }
 
 export async function fetchAvailableCoupons() {
