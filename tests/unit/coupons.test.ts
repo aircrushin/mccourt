@@ -38,4 +38,22 @@ describe('recommendation coupons', () => {
     expect(failed.status).toBe(502);
     expect(JSON.stringify(await failed.json())).not.toContain('private upstream');
   });
+  it('accepts the public origin behind a reverse proxy, including its port', async () => {
+    vi.mocked(claimCoupons).mockResolvedValue({ claimed: true, message: '领取成功' });
+    const proxied = request({ couponName: '免费脆薯饼' }, 'https://mccourt.example:8443');
+    proxied.headers.set('host', 'localhost:3000');
+    proxied.headers.set('x-forwarded-host', 'mccourt.example:8443');
+    proxied.headers.set('x-forwarded-proto', 'https');
+    expect((await POST(proxied)).status).toBe(200);
+    expect(claimCoupons).toHaveBeenCalledWith('免费脆薯饼');
+  });
+  it('still rejects cross-site and protocol-mismatched origins behind a proxy', async () => {
+    for (const origin of ['https://other.example', 'http://mccourt.example', 'null']) {
+      const proxied = request({ couponName: '免费脆薯饼' }, origin);
+      proxied.headers.set('x-forwarded-host', 'mccourt.example');
+      proxied.headers.set('x-forwarded-proto', 'https');
+      expect((await POST(proxied)).status).toBe(403);
+    }
+    expect(claimCoupons).not.toHaveBeenCalled();
+  });
 });
