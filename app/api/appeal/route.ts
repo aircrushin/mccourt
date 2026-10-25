@@ -9,7 +9,7 @@ import { demoMeals } from '@/lib/court/demo-meals';
 const AppealSchema = z.object({
   participant: ParticipantSchema,
   reason: z.string().trim().min(1).max(180),
-  previousItemIds: z.array(z.string()).max(4).default([]),
+  previousItemIds: z.array(z.string()).max(6).default([]),
   mode: z.enum(['live', 'demo']).default('live'),
   storeCode: z.string().trim().min(1).max(40).optional(),
   orderPermit: z.object({ payload: z.string().min(1).max(12000), signature: z.string().min(1).max(200) }).optional(),
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     }
     return NextResponse.json({ recommendation, live: mcp.live, updatedAt: 'updatedAt' in mcp ? mcp.updatedAt : null,
       warning: mcp.warning ?? null, orderPermit: nextPermit,
-      message: recommendation.items.length ? null : '当前预算和可验证餐品无法提供符合上诉要求的替换组合，原方案已保留。',
+      message: recommendation.items.length ? null : `${recommendation.reason} 原方案已保留，尚未满足的新诉求未被自动替换。`,
     });
   } catch { return NextResponse.json({ error: '上诉处理失败，请稍后重试。' }, { status: 500 }); }
 }

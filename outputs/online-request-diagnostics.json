@@ -1,0 +1,1474 @@
+{
+  "testedAt": "2026-10-25T07:48:38.047Z",
+  "base": "https://mccourt.vercel.app",
+  "results": [
+    {
+      "input": {
+        "partyName": "线上点名诉求诊断",
+        "mode": "live",
+        "location": {
+          "city": "上海",
+          "keyword": "人民广场"
+        },
+        "participants": [
+          {
+            "id": "baseline",
+            "name": "baseline",
+            "budget": 60,
+            "taste": [],
+            "goal": "",
+            "hunger": 3,
+            "request": ""
+          },
+          {
+            "id": "burger-sprite",
+            "name": "burger-sprite",
+            "budget": 60,
+            "taste": [],
+            "goal": "",
+            "hunger": 3,
+            "request": "我要汉堡和雪碧"
+          },
+          {
+            "id": "grilled-short",
+            "name": "grilled-short",
+            "budget": 60,
+            "taste": [],
+            "goal": "",
+            "hunger": 3,
+            "request": "我要吃板烧"
+          },
+          {
+            "id": "grilled-sprite",
+            "name": "grilled-sprite",
+            "budget": 60,
+            "taste": [],
+            "goal": "",
+            "hunger": 3,
+            "request": "我要吃板烧鸡腿堡和雪碧"
+          }
+        ]
+      },
+      "durationSeconds": 14.93,
+      "response": {
+        "verdict": {
+          "caseNumber": "MC-2026-3627",
+          "caseName": "麦门食堂案 MC-2026-3627",
+          "opening": "本庭查明，四位被告虽诉求各异，但均陷入‘选什么’的同一困境。鉴于预算充足且饥饿感一致，本院依职权统一裁量如下：",
+          "opinions": [
+            "baseline: 驳回其‘无明确诉求’之抗辩。依据适中饥饱原则，判给龙焰鸡腿堡、脆薯饼及纯悦各一份。总价 31.90 元，未超 60 元红线。营养数据缺失部分，不予采信，但口感应当真实。",
+            "burger-sprite: 确认其‘汉堡+雪碧’之核心诉求成立。然因系统库存逻辑限制，雪碧被替换为纯悦（同属液体补充剂），汉堡保留。判决维持原搭配，总价 31.90 元，符合预算正义。",
+            "grilled-short: 针对其‘吃板烧’之特定请求，本庭遗憾地指出，当前证据链仅支持‘龙焰鸡腿堡’这一等效替代方案。基于‘吃饱’这一最高法理，驳回更换请求。判决：龙焰、薯饼、水，共计 31.90 元。",
+            "grilled-sprite: 综合其‘板烧+雪碧’之双重诉求，本庭再次重申司法一致性。在缺乏板烧现货的情况下，以龙焰鸡腿堡顶替，纯悦顶替雪碧。总价 31.90 元，未超出自由意志（预算）边界。"
+          ],
+          "ruling": "综上，四人皆获配餐一套（龙焰鸡腿堡+脆薯饼+纯悦），合计支出均为 31.90 元。诉讼费由各位的钱包自行承担。退庭。",
+          "recommendations": [
+            {
+              "participantId": "baseline",
+              "items": [
+                {
+                  "id": "521952",
+                  "name": "龙焰鸡腿堡",
+                  "price": 15.9,
+                  "calories": null,
+                  "protein": null,
+                  "tags": [
+                    "韩式辣椒黄油风味",
+                    "人气热卖",
+                    "上新",
+                    "韩式辣椒黄油风味",
+                    "鸡肉汉堡\n/卷"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                },
+                {
+                  "id": "521741",
+                  "name": "脆薯饼",
+                  "price": 8.5,
+                  "calories": 146,
+                  "protein": 1,
+                  "tags": [
+                    "小食",
+                    "小食甜品\n/其他"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": [
+                    {
+                      "name": "免费脆薯饼",
+                      "status": "claimed"
+                    }
+                  ]
+                },
+                {
+                  "id": "3757",
+                  "name": "纯悦",
+                  "price": 7.5,
+                  "calories": 0,
+                  "protein": 0,
+                  "tags": [
+                    "冷饮",
+                    "饮品"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                }
+              ],
+              "totalPrice": 31.9,
+              "calories": null,
+              "protein": null,
+              "score": 82.2,
+              "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+              "constraints": [
+                "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+              ],
+              "alternatives": [
+                {
+                  "items": [
+                    {
+                      "id": "521952",
+                      "name": "龙焰鸡腿堡",
+                      "price": 15.9,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "韩式辣椒黄油风味",
+                        "人气热卖",
+                        "上新",
+                        "韩式辣椒黄油风味",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    }
+                  ],
+                  "totalPrice": 24.4,
+                  "calories": null,
+                  "protein": null,
+                  "score": 74.4,
+                  "reason": "按适中饥饿程度搭配2项餐品，合计 24.40 元，未超过 60 元预算。",
+                  "constraints": [
+                    "本组合未搭配饮品；不为凑齐品类突破预算。",
+                    "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                },
+                {
+                  "items": [
+                    {
+                      "id": "1450",
+                      "name": "麦香鸡",
+                      "price": 17,
+                      "calories": 369,
+                      "protein": 15,
+                      "tags": [
+                        "单品",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "3757",
+                      "name": "纯悦",
+                      "price": 7.5,
+                      "calories": 0,
+                      "protein": 0,
+                      "tags": [
+                        "冷饮",
+                        "饮品"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    }
+                  ],
+                  "totalPrice": 33,
+                  "calories": 515,
+                  "protein": 16,
+                  "score": 82,
+                  "reason": "按适中饥饿程度搭配3项餐品，合计 33.00 元，未超过 60 元预算。",
+                  "constraints": [
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                }
+              ]
+            },
+            {
+              "participantId": "burger-sprite",
+              "items": [
+                {
+                  "id": "521952",
+                  "name": "龙焰鸡腿堡",
+                  "price": 15.9,
+                  "calories": null,
+                  "protein": null,
+                  "tags": [
+                    "韩式辣椒黄油风味",
+                    "人气热卖",
+                    "上新",
+                    "韩式辣椒黄油风味",
+                    "鸡肉汉堡\n/卷"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                },
+                {
+                  "id": "521741",
+                  "name": "脆薯饼",
+                  "price": 8.5,
+                  "calories": 146,
+                  "protein": 1,
+                  "tags": [
+                    "小食",
+                    "小食甜品\n/其他"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": [
+                    {
+                      "name": "免费脆薯饼",
+                      "status": "claimed"
+                    }
+                  ]
+                },
+                {
+                  "id": "3757",
+                  "name": "纯悦",
+                  "price": 7.5,
+                  "calories": 0,
+                  "protein": 0,
+                  "tags": [
+                    "冷饮",
+                    "饮品"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                }
+              ],
+              "totalPrice": 31.9,
+              "calories": null,
+              "protein": null,
+              "score": 82.2,
+              "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+              "constraints": [
+                "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+              ],
+              "alternatives": [
+                {
+                  "items": [
+                    {
+                      "id": "521952",
+                      "name": "龙焰鸡腿堡",
+                      "price": 15.9,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "韩式辣椒黄油风味",
+                        "人气热卖",
+                        "上新",
+                        "韩式辣椒黄油风味",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    }
+                  ],
+                  "totalPrice": 24.4,
+                  "calories": null,
+                  "protein": null,
+                  "score": 74.4,
+                  "reason": "按适中饥饿程度搭配2项餐品，合计 24.40 元，未超过 60 元预算。",
+                  "constraints": [
+                    "本组合未搭配饮品；不为凑齐品类突破预算。",
+                    "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                },
+                {
+                  "items": [
+                    {
+                      "id": "1450",
+                      "name": "麦香鸡",
+                      "price": 17,
+                      "calories": 369,
+                      "protein": 15,
+                      "tags": [
+                        "单品",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "3757",
+                      "name": "纯悦",
+                      "price": 7.5,
+                      "calories": 0,
+                      "protein": 0,
+                      "tags": [
+                        "冷饮",
+                        "饮品"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    }
+                  ],
+                  "totalPrice": 33,
+                  "calories": 515,
+                  "protein": 16,
+                  "score": 82,
+                  "reason": "按适中饥饿程度搭配3项餐品，合计 33.00 元，未超过 60 元预算。",
+                  "constraints": [
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                }
+              ]
+            },
+            {
+              "participantId": "grilled-short",
+              "items": [
+                {
+                  "id": "521952",
+                  "name": "龙焰鸡腿堡",
+                  "price": 15.9,
+                  "calories": null,
+                  "protein": null,
+                  "tags": [
+                    "韩式辣椒黄油风味",
+                    "人气热卖",
+                    "上新",
+                    "韩式辣椒黄油风味",
+                    "鸡肉汉堡\n/卷"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                },
+                {
+                  "id": "521741",
+                  "name": "脆薯饼",
+                  "price": 8.5,
+                  "calories": 146,
+                  "protein": 1,
+                  "tags": [
+                    "小食",
+                    "小食甜品\n/其他"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": [
+                    {
+                      "name": "免费脆薯饼",
+                      "status": "claimed"
+                    }
+                  ]
+                },
+                {
+                  "id": "3757",
+                  "name": "纯悦",
+                  "price": 7.5,
+                  "calories": 0,
+                  "protein": 0,
+                  "tags": [
+                    "冷饮",
+                    "饮品"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                }
+              ],
+              "totalPrice": 31.9,
+              "calories": null,
+              "protein": null,
+              "score": 82.2,
+              "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+              "constraints": [
+                "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+              ],
+              "alternatives": [
+                {
+                  "items": [
+                    {
+                      "id": "521952",
+                      "name": "龙焰鸡腿堡",
+                      "price": 15.9,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "韩式辣椒黄油风味",
+                        "人气热卖",
+                        "上新",
+                        "韩式辣椒黄油风味",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    }
+                  ],
+                  "totalPrice": 24.4,
+                  "calories": null,
+                  "protein": null,
+                  "score": 74.4,
+                  "reason": "按适中饥饿程度搭配2项餐品，合计 24.40 元，未超过 60 元预算。",
+                  "constraints": [
+                    "本组合未搭配饮品；不为凑齐品类突破预算。",
+                    "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                },
+                {
+                  "items": [
+                    {
+                      "id": "1450",
+                      "name": "麦香鸡",
+                      "price": 17,
+                      "calories": 369,
+                      "protein": 15,
+                      "tags": [
+                        "单品",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "3757",
+                      "name": "纯悦",
+                      "price": 7.5,
+                      "calories": 0,
+                      "protein": 0,
+                      "tags": [
+                        "冷饮",
+                        "饮品"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    }
+                  ],
+                  "totalPrice": 33,
+                  "calories": 515,
+                  "protein": 16,
+                  "score": 82,
+                  "reason": "按适中饥饿程度搭配3项餐品，合计 33.00 元，未超过 60 元预算。",
+                  "constraints": [
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                }
+              ]
+            },
+            {
+              "participantId": "grilled-sprite",
+              "items": [
+                {
+                  "id": "521952",
+                  "name": "龙焰鸡腿堡",
+                  "price": 15.9,
+                  "calories": null,
+                  "protein": null,
+                  "tags": [
+                    "韩式辣椒黄油风味",
+                    "人气热卖",
+                    "上新",
+                    "韩式辣椒黄油风味",
+                    "鸡肉汉堡\n/卷"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                },
+                {
+                  "id": "521741",
+                  "name": "脆薯饼",
+                  "price": 8.5,
+                  "calories": 146,
+                  "protein": 1,
+                  "tags": [
+                    "小食",
+                    "小食甜品\n/其他"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": [
+                    {
+                      "name": "免费脆薯饼",
+                      "status": "claimed"
+                    }
+                  ]
+                },
+                {
+                  "id": "3757",
+                  "name": "纯悦",
+                  "price": 7.5,
+                  "calories": 0,
+                  "protein": 0,
+                  "tags": [
+                    "冷饮",
+                    "饮品"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                }
+              ],
+              "totalPrice": 31.9,
+              "calories": null,
+              "protein": null,
+              "score": 82.2,
+              "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+              "constraints": [
+                "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+              ],
+              "alternatives": [
+                {
+                  "items": [
+                    {
+                      "id": "521952",
+                      "name": "龙焰鸡腿堡",
+                      "price": 15.9,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "韩式辣椒黄油风味",
+                        "人气热卖",
+                        "上新",
+                        "韩式辣椒黄油风味",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    }
+                  ],
+                  "totalPrice": 24.4,
+                  "calories": null,
+                  "protein": null,
+                  "score": 74.4,
+                  "reason": "按适中饥饿程度搭配2项餐品，合计 24.40 元，未超过 60 元预算。",
+                  "constraints": [
+                    "本组合未搭配饮品；不为凑齐品类突破预算。",
+                    "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                },
+                {
+                  "items": [
+                    {
+                      "id": "1450",
+                      "name": "麦香鸡",
+                      "price": 17,
+                      "calories": 369,
+                      "protein": 15,
+                      "tags": [
+                        "单品",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "3757",
+                      "name": "纯悦",
+                      "price": 7.5,
+                      "calories": 0,
+                      "protein": 0,
+                      "tags": [
+                        "冷饮",
+                        "饮品"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    }
+                  ],
+                  "totalPrice": 33,
+                  "calories": 515,
+                  "protein": 16,
+                  "score": 82,
+                  "reason": "按适中饥饿程度搭配3项餐品，合计 33.00 元，未超过 60 元预算。",
+                  "constraints": [
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                }
+              ]
+            }
+          ],
+          "live": true,
+          "sourceUpdatedAt": "2026-10-25T07:50:00.973Z",
+          "store": {
+            "storeCode": "1450713",
+            "storeName": "麦当劳上海黄浦华旭国际大厦餐厅",
+            "address": "南京东路街道西藏中路336号",
+            "distance": 144
+          }
+        },
+        "toolName": "query-meals",
+        "mealCount": 117,
+        "judgeModel": "qwen/qwen3.7-flash:nitro",
+        "judge": {
+          "engine": "openrouter",
+          "model": "qwen/qwen3.7-flash:nitro"
+        }
+      }
+    },
+    {
+      "input": {
+        "partyName": "线上点名诉求诊断",
+        "mode": "live",
+        "location": {
+          "city": "上海",
+          "keyword": "人民广场"
+        },
+        "participants": [
+          {
+            "id": "fish",
+            "name": "fish",
+            "budget": 60,
+            "taste": [],
+            "goal": "",
+            "hunger": 3,
+            "request": "我要吃麦香鱼"
+          },
+          {
+            "id": "burger-coke",
+            "name": "burger-coke",
+            "budget": 60,
+            "taste": [],
+            "goal": "",
+            "hunger": 3,
+            "request": "我要汉堡和可乐"
+          },
+          {
+            "id": "fries-positive",
+            "name": "fries-positive",
+            "budget": 60,
+            "taste": [],
+            "goal": "",
+            "hunger": 3,
+            "request": "我要吃薯条"
+          },
+          {
+            "id": "fries-negative",
+            "name": "fries-negative",
+            "budget": 60,
+            "taste": [],
+            "goal": "",
+            "hunger": 3,
+            "request": "不要薯条，要板烧和雪碧"
+          }
+        ]
+      },
+      "durationSeconds": 18.09,
+      "response": {
+        "verdict": {
+          "caseNumber": "MC-2026-3761",
+          "caseName": "麦门聚餐纠纷案",
+          "opening": "本庭现对 MC-2026-3761 号案件宣判。事实清楚，预算充足，逻辑闭环。判决如下：",
+          "opinions": [
+            "被告 fish 诉求‘麦香鱼’未果，鉴于该餐品不在推荐清单且未违反其他约束，本庭驳回其特定单品主张。判给龙焰鸡腿堡、脆薯饼及纯悦各一份，合计 31.9 元。虽非鱼，但肉量实在，足以抚慰饥肠。",
+            "被告 burger-coke 诉求‘汉堡和可乐’成立。本庭酌情将‘可乐’替换为‘纯悦’（毕竟雪碧更配薯条，此处无薯条故退而求其次），并搭配龙焰鸡腿堡与脆薯饼。总价 31.9 元，符合‘有堡有水’的基本法理。",
+            "被告 fries-positive 诉求‘吃薯条’确凿。本庭准予其享用薯条，并附赠龙焰鸡腿堡以平衡口感，辅以纯悦解腻。总计 36.9 元，碳水快乐，合法合规。",
+            "被告 fries-negative 诉求‘不要薯条’与事实相悖。经查，其推荐结果中赫然列有‘薯条’一项。本庭认定此乃系统之过或口味之变，但既已上桌，便只能接受。同判龙焰鸡腿堡、薯条及纯悦，合计 36.9 元。愿赌服输，请慢用。"
+          ],
+          "ruling": "综上，四人皆在预算内吃饱喝足。驳回所有关于‘没吃到想吃的东西’的上诉。散庭！",
+          "recommendations": [
+            {
+              "participantId": "fish",
+              "items": [
+                {
+                  "id": "521952",
+                  "name": "龙焰鸡腿堡",
+                  "price": 15.9,
+                  "calories": null,
+                  "protein": null,
+                  "tags": [
+                    "韩式辣椒黄油风味",
+                    "人气热卖",
+                    "上新",
+                    "韩式辣椒黄油风味",
+                    "鸡肉汉堡\n/卷"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                },
+                {
+                  "id": "521741",
+                  "name": "脆薯饼",
+                  "price": 8.5,
+                  "calories": 146,
+                  "protein": 1,
+                  "tags": [
+                    "小食",
+                    "小食甜品\n/其他"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": [
+                    {
+                      "name": "免费脆薯饼",
+                      "status": "claimed"
+                    }
+                  ]
+                },
+                {
+                  "id": "3757",
+                  "name": "纯悦",
+                  "price": 7.5,
+                  "calories": 0,
+                  "protein": 0,
+                  "tags": [
+                    "冷饮",
+                    "饮品"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                }
+              ],
+              "totalPrice": 31.9,
+              "calories": null,
+              "protein": null,
+              "score": 82.2,
+              "reason": "诉求‘麦香鱼’被驳回，因推荐结果为龙焰鸡腿堡+脆薯饼+纯悦，总价31.9元，未超预算。",
+              "constraints": [
+                "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+              ],
+              "alternatives": [
+                {
+                  "items": [
+                    {
+                      "id": "521952",
+                      "name": "龙焰鸡腿堡",
+                      "price": 15.9,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "韩式辣椒黄油风味",
+                        "人气热卖",
+                        "上新",
+                        "韩式辣椒黄油风味",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    }
+                  ],
+                  "totalPrice": 24.4,
+                  "calories": null,
+                  "protein": null,
+                  "score": 74.4,
+                  "reason": "按适中饥饿程度搭配2项餐品，合计 24.40 元，未超过 60 元预算。",
+                  "constraints": [
+                    "本组合未搭配饮品；不为凑齐品类突破预算。",
+                    "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                },
+                {
+                  "items": [
+                    {
+                      "id": "1450",
+                      "name": "麦香鸡",
+                      "price": 17,
+                      "calories": 369,
+                      "protein": 15,
+                      "tags": [
+                        "单品",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "3757",
+                      "name": "纯悦",
+                      "price": 7.5,
+                      "calories": 0,
+                      "protein": 0,
+                      "tags": [
+                        "冷饮",
+                        "饮品"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    }
+                  ],
+                  "totalPrice": 33,
+                  "calories": 515,
+                  "protein": 16,
+                  "score": 82,
+                  "reason": "按适中饥饿程度搭配3项餐品，合计 33.00 元，未超过 60 元预算。",
+                  "constraints": [
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                }
+              ]
+            },
+            {
+              "participantId": "burger-coke",
+              "items": [
+                {
+                  "id": "521952",
+                  "name": "龙焰鸡腿堡",
+                  "price": 15.9,
+                  "calories": null,
+                  "protein": null,
+                  "tags": [
+                    "韩式辣椒黄油风味",
+                    "人气热卖",
+                    "上新",
+                    "韩式辣椒黄油风味",
+                    "鸡肉汉堡\n/卷"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                },
+                {
+                  "id": "521741",
+                  "name": "脆薯饼",
+                  "price": 8.5,
+                  "calories": 146,
+                  "protein": 1,
+                  "tags": [
+                    "小食",
+                    "小食甜品\n/其他"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": [
+                    {
+                      "name": "免费脆薯饼",
+                      "status": "claimed"
+                    }
+                  ]
+                },
+                {
+                  "id": "3757",
+                  "name": "纯悦",
+                  "price": 7.5,
+                  "calories": 0,
+                  "protein": 0,
+                  "tags": [
+                    "冷饮",
+                    "饮品"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                }
+              ],
+              "totalPrice": 31.9,
+              "calories": null,
+              "protein": null,
+              "score": 82.2,
+              "reason": "诉求‘汉堡和可乐’获支持（可乐变纯悦），搭配龙焰鸡腿堡+脆薯饼+纯悦，总价31.9元，未超预算。",
+              "constraints": [
+                "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+              ],
+              "alternatives": [
+                {
+                  "items": [
+                    {
+                      "id": "521952",
+                      "name": "龙焰鸡腿堡",
+                      "price": 15.9,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "韩式辣椒黄油风味",
+                        "人气热卖",
+                        "上新",
+                        "韩式辣椒黄油风味",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    }
+                  ],
+                  "totalPrice": 24.4,
+                  "calories": null,
+                  "protein": null,
+                  "score": 74.4,
+                  "reason": "按适中饥饿程度搭配2项餐品，合计 24.40 元，未超过 60 元预算。",
+                  "constraints": [
+                    "本组合未搭配饮品；不为凑齐品类突破预算。",
+                    "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                },
+                {
+                  "items": [
+                    {
+                      "id": "1450",
+                      "name": "麦香鸡",
+                      "price": 17,
+                      "calories": 369,
+                      "protein": 15,
+                      "tags": [
+                        "单品",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "521741",
+                      "name": "脆薯饼",
+                      "price": 8.5,
+                      "calories": 146,
+                      "protein": 1,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": [
+                        {
+                          "name": "免费脆薯饼",
+                          "status": "claimed"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "3757",
+                      "name": "纯悦",
+                      "price": 7.5,
+                      "calories": 0,
+                      "protein": 0,
+                      "tags": [
+                        "冷饮",
+                        "饮品"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    }
+                  ],
+                  "totalPrice": 33,
+                  "calories": 515,
+                  "protein": 16,
+                  "score": 82,
+                  "reason": "按适中饥饿程度搭配3项餐品，合计 33.00 元，未超过 60 元预算。",
+                  "constraints": [
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                }
+              ]
+            },
+            {
+              "participantId": "fries-positive",
+              "items": [
+                {
+                  "id": "521952",
+                  "name": "龙焰鸡腿堡",
+                  "price": 15.9,
+                  "calories": null,
+                  "protein": null,
+                  "tags": [
+                    "韩式辣椒黄油风味",
+                    "人气热卖",
+                    "上新",
+                    "韩式辣椒黄油风味",
+                    "鸡肉汉堡\n/卷"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                },
+                {
+                  "id": "4810",
+                  "name": "薯条",
+                  "price": 13.5,
+                  "calories": null,
+                  "protein": null,
+                  "tags": [
+                    "小食",
+                    "小食甜品\n/其他"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                },
+                {
+                  "id": "3757",
+                  "name": "纯悦",
+                  "price": 7.5,
+                  "calories": 0,
+                  "protein": 0,
+                  "tags": [
+                    "冷饮",
+                    "饮品"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                }
+              ],
+              "totalPrice": 36.9,
+              "calories": null,
+              "protein": null,
+              "score": 136.4,
+              "reason": "诉求‘吃薯条’获支持，搭配龙焰鸡腿堡+薯条+纯悦，总价36.9元，未超预算。",
+              "constraints": [
+                "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+              ],
+              "alternatives": [
+                {
+                  "items": [
+                    {
+                      "id": "521952",
+                      "name": "龙焰鸡腿堡",
+                      "price": 15.9,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "韩式辣椒黄油风味",
+                        "人气热卖",
+                        "上新",
+                        "韩式辣椒黄油风味",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "4810",
+                      "name": "薯条",
+                      "price": 13.5,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    }
+                  ],
+                  "totalPrice": 29.4,
+                  "calories": null,
+                  "protein": null,
+                  "score": 128.6,
+                  "reason": "按适中饥饿程度搭配2项餐品，合计 29.40 元，未超过 60 元预算。",
+                  "constraints": [
+                    "本组合未搭配饮品；不为凑齐品类突破预算。",
+                    "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                },
+                {
+                  "items": [
+                    {
+                      "id": "1450",
+                      "name": "麦香鸡",
+                      "price": 17,
+                      "calories": 369,
+                      "protein": 15,
+                      "tags": [
+                        "单品",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "4810",
+                      "name": "薯条",
+                      "price": 13.5,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "3757",
+                      "name": "纯悦",
+                      "price": 7.5,
+                      "calories": 0,
+                      "protein": 0,
+                      "tags": [
+                        "冷饮",
+                        "饮品"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    }
+                  ],
+                  "totalPrice": 38,
+                  "calories": null,
+                  "protein": null,
+                  "score": 136.2,
+                  "reason": "按适中饥饿程度搭配3项餐品，合计 38.00 元，未超过 60 元预算。",
+                  "constraints": [
+                    "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                }
+              ]
+            },
+            {
+              "participantId": "fries-negative",
+              "items": [
+                {
+                  "id": "521952",
+                  "name": "龙焰鸡腿堡",
+                  "price": 15.9,
+                  "calories": null,
+                  "protein": null,
+                  "tags": [
+                    "韩式辣椒黄油风味",
+                    "人气热卖",
+                    "上新",
+                    "韩式辣椒黄油风味",
+                    "鸡肉汉堡\n/卷"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                },
+                {
+                  "id": "4810",
+                  "name": "薯条",
+                  "price": 13.5,
+                  "calories": null,
+                  "protein": null,
+                  "tags": [
+                    "小食",
+                    "小食甜品\n/其他"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                },
+                {
+                  "id": "3757",
+                  "name": "纯悦",
+                  "price": 7.5,
+                  "calories": 0,
+                  "protein": 0,
+                  "tags": [
+                    "冷饮",
+                    "饮品"
+                  ],
+                  "source": "麦当劳 MCP",
+                  "coupons": []
+                }
+              ],
+              "totalPrice": 36.9,
+              "calories": null,
+              "protein": null,
+              "score": 136.4,
+              "reason": "诉求‘不要薯条’与判决结果（含薯条）矛盾，但鉴于总单已出，判给龙焰鸡腿堡+薯条+纯悦，总价36.9元，未超预算。",
+              "constraints": [
+                "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+              ],
+              "alternatives": [
+                {
+                  "items": [
+                    {
+                      "id": "521952",
+                      "name": "龙焰鸡腿堡",
+                      "price": 15.9,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "韩式辣椒黄油风味",
+                        "人气热卖",
+                        "上新",
+                        "韩式辣椒黄油风味",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "4810",
+                      "name": "薯条",
+                      "price": 13.5,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    }
+                  ],
+                  "totalPrice": 29.4,
+                  "calories": null,
+                  "protein": null,
+                  "score": 128.6,
+                  "reason": "按适中饥饿程度搭配2项餐品，合计 29.40 元，未超过 60 元预算。",
+                  "constraints": [
+                    "本组合未搭配饮品；不为凑齐品类突破预算。",
+                    "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                },
+                {
+                  "items": [
+                    {
+                      "id": "1450",
+                      "name": "麦香鸡",
+                      "price": 17,
+                      "calories": 369,
+                      "protein": 15,
+                      "tags": [
+                        "单品",
+                        "鸡肉汉堡\n/卷"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "4810",
+                      "name": "薯条",
+                      "price": 13.5,
+                      "calories": null,
+                      "protein": null,
+                      "tags": [
+                        "小食",
+                        "小食甜品\n/其他"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    },
+                    {
+                      "id": "3757",
+                      "name": "纯悦",
+                      "price": 7.5,
+                      "calories": 0,
+                      "protein": 0,
+                      "tags": [
+                        "冷饮",
+                        "饮品"
+                      ],
+                      "source": "麦当劳 MCP",
+                      "coupons": []
+                    }
+                  ],
+                  "totalPrice": 38,
+                  "calories": null,
+                  "protein": null,
+                  "score": 136.2,
+                  "reason": "按适中饥饿程度搭配3项餐品，合计 38.00 元，未超过 60 元预算。",
+                  "constraints": [
+                    "部分餐品营养暂未获取，不展示不完整的营养总量。",
+                    "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+                  ]
+                }
+              ]
+            }
+          ],
+          "live": true,
+          "sourceUpdatedAt": "2026-10-25T07:50:03.310Z",
+          "store": {
+            "storeCode": "1450713",
+            "storeName": "麦当劳上海黄浦华旭国际大厦餐厅",
+            "address": "南京东路街道西藏中路336号",
+            "distance": 144
+          }
+        },
+        "toolName": "query-meals",
+        "mealCount": 117,
+        "judgeModel": "qwen/qwen3.7-flash:nitro",
+        "judge": {
+          "engine": "openrouter",
+          "model": "qwen/qwen3.7-flash:nitro"
+        }
+      }
+    }
+  ]
+}

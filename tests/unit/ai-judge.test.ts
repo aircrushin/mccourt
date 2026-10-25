@@ -17,7 +17,7 @@ describe('OpenRouter judge', () => {
   });
   it('sends valid headers, parses structured copy and preserves meal facts', async () => {
     vi.stubEnv('OPENROUTER_API_KEY','test-key');
-    const copy={caseName:'薯条自由案',opening:'本庭开庭。',opinions:['钱包应当得到保护。'],ruling:'本庭准许合理享用薯条。',reasons:[{participantId:'p1',reason:'薯条诉求获得支持。'}]};
+    const copy={caseName:'薯条自由案',opening:'本庭开庭。',opinions:['钱包应当得到保护。'],ruling:'本庭准许合理享用薯条。'};
     const fetchMock=vi.fn(async (_url, init) => {
       const headers=new Headers(init?.headers);
       expect(headers.get('X-Title')).toBe('McCourt');
@@ -31,7 +31,7 @@ describe('OpenRouter judge', () => {
     const result=await enrichVerdictWithOpenRouter(base,participants,base.recommendations);
     expect(fetchMock).toHaveBeenCalledOnce(); expect(result.judge.engine).toBe('openrouter');
     expect(result.verdict.caseName).toBe(copy.caseName);
-    expect(result.verdict.recommendations[0].reason).toBe(copy.reasons[0].reason);
+    expect(result.verdict.recommendations[0].reason).toBe(base.recommendations[0].reason);
     expect(result.verdict.recommendations[0].items).toEqual(base.recommendations[0].items);
     expect(result.verdict.recommendations[0].totalPrice).toBe(14.5);
     expect(result.verdict.recommendations[0].alternatives).toEqual(base.recommendations[0].alternatives);
@@ -43,5 +43,30 @@ describe('OpenRouter judge', () => {
     const result=await enrichVerdictWithOpenRouter(base,participants,base.recommendations);
     expect(result.judge).toEqual({engine:'rules',model:null,reason:'generation_failed'});
     expect(result.verdict).toBe(base); expect(fetchMock).toHaveBeenCalledOnce();
+  });
+  it.each([
+    '因系统库存逻辑限制，雪碧被替换为纯悦。',
+    '在缺乏板烧现货的情况下，以龙焰鸡腿堡顶替。',
+    '本庭认定订单已经创建，餐品已上桌。',
+    '本庭驳回特殊诉求，贪心不足，请愿赌服输。',
+    '本判决不得上诉。',
+  ])('rejects unsupported narrative even when structured output is valid: %s', async ruling => {
+    vi.stubEnv('OPENROUTER_API_KEY','test-key');
+    vi.stubGlobal('fetch', vi.fn(async () => Response.json({
+      id:'test',model:'test',created:1,
+      choices:[{index:0,message:{role:'assistant',content:JSON.stringify({caseName:'点餐案',opening:'本庭开庭。',opinions:['尊重当事人。'],ruling})},finish_reason:'stop'}],
+    })));
+    const result = await enrichVerdictWithOpenRouter(base, participants, base.recommendations);
+    expect(result.judge).toEqual({ engine:'rules', model:null, reason:'unverified_copy' });
+    expect(result.verdict).toBe(base);
+  });
+  it('does not ask AI to invent an explanation for unmet requirements', async () => {
+    vi.stubEnv('OPENROUTER_API_KEY','test-key');
+    const fetchMock = vi.fn(); vi.stubGlobal('fetch', fetchMock);
+    const missing = { ...base, recommendations:[{ ...base.recommendations[0], items:[], reason:'当前菜单未找到可验证的板烧。', requestMatch:{ required:['板烧'],excluded:[],only:false,satisfied:false,issues:['菜单未找到'] } }] };
+    const result = await enrichVerdictWithOpenRouter(missing, participants, missing.recommendations);
+    expect(result.judge.reason).toBe('unmet_requirements');
+    expect(result.verdict).toBe(missing);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

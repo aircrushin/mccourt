@@ -1,0 +1,2856 @@
+{
+  "testedAt": "2026-10-25T07:48:38.047Z",
+  "location": {
+    "city": "上海",
+    "keyword": "人民广场"
+  },
+  "configured": {
+    "mcp": true,
+    "ai": true
+  },
+  "cases": [
+    {
+      "id": "baseline",
+      "request": "",
+      "expected": []
+    },
+    {
+      "id": "burger-sprite",
+      "request": "我要汉堡和雪碧",
+      "expected": [
+        "主食",
+        "雪碧"
+      ]
+    },
+    {
+      "id": "grilled-short",
+      "request": "我要吃板烧",
+      "expected": [
+        "板烧"
+      ]
+    },
+    {
+      "id": "grilled-sprite",
+      "request": "我要吃板烧鸡腿堡和雪碧",
+      "expected": [
+        "板烧",
+        "雪碧"
+      ]
+    },
+    {
+      "id": "fish",
+      "request": "我要吃麦香鱼",
+      "expected": [
+        "麦香鱼"
+      ]
+    },
+    {
+      "id": "burger-coke",
+      "request": "我要汉堡和可乐",
+      "expected": [
+        "主食",
+        "可乐"
+      ]
+    },
+    {
+      "id": "fries-positive",
+      "request": "我要吃薯条",
+      "expected": [
+        "薯条"
+      ]
+    },
+    {
+      "id": "fries-negative",
+      "request": "不要薯条，要板烧和雪碧",
+      "expected": [
+        "板烧",
+        "雪碧"
+      ],
+      "forbidden": [
+        "薯条"
+      ]
+    },
+    {
+      "id": "no-drink",
+      "request": "不喝饮料，要板烧",
+      "expected": [
+        "板烧"
+      ],
+      "forbidden": [
+        "饮品"
+      ]
+    },
+    {
+      "id": "sprite-only",
+      "request": "只要一杯雪碧，不要其他食物",
+      "expected": [
+        "雪碧"
+      ],
+      "only": true
+    },
+    {
+      "id": "impossible-budget",
+      "request": "我要板烧鸡腿堡和雪碧",
+      "expected": [
+        "板烧",
+        "雪碧"
+      ],
+      "budget": 10
+    },
+    {
+      "id": "fries-sprite",
+      "request": "我要汉堡、薯条和雪碧",
+      "expected": [
+        "主食",
+        "薯条",
+        "雪碧"
+      ]
+    }
+  ],
+  "catalog": {
+    "meals": [
+      {
+        "id": "1100",
+        "name": "巨无霸",
+        "price": 25.5,
+        "calories": 513,
+        "protein": 27,
+        "tags": [
+          "单品",
+          "100%纯牛肉",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "1106",
+        "name": "培根蔬萃双层牛堡",
+        "price": 24.5,
+        "calories": 442,
+        "protein": 24,
+        "tags": [
+          "单品",
+          "100%纯牛肉",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "1120",
+        "name": "双层吉士汉堡",
+        "price": 23,
+        "calories": 429,
+        "protein": 27,
+        "tags": [
+          "单品",
+          "100%纯牛肉",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "1401",
+        "name": "麦乐鸡",
+        "price": 14,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "单品",
+          "人气",
+          "炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "1406",
+        "name": "板烧鸡腿堡",
+        "price": 23.5,
+        "calories": 391,
+        "protein": 23,
+        "tags": [
+          "单品",
+          "板烧滋滋",
+          "多汁惹味",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "1440",
+        "name": "麦辣鸡腿汉堡",
+        "price": 22.5,
+        "calories": 485,
+        "protein": 24,
+        "tags": [
+          "单品",
+          "人气经典",
+          "外酥里嫩",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "1450",
+        "name": "麦香鸡",
+        "price": 17,
+        "calories": 369,
+        "protein": 15,
+        "tags": [
+          "单品",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "1600",
+        "name": "麦香鱼",
+        "price": 22.5,
+        "calories": 325,
+        "protein": 16,
+        "tags": [
+          "单品",
+          "麦香鱼系列",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "1700",
+        "name": "麦辣鸡翅",
+        "price": 15,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "单品",
+          "黄金酥脆",
+          "鲜嫩多汁",
+          "炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "2430",
+        "name": "【美汁源】“黄金橙橙”",
+        "price": 13,
+        "calories": 165,
+        "protein": 0,
+        "tags": [
+          "冷饮",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "3010",
+        "name": "雪碧",
+        "price": 9.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "冷饮",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "3505",
+        "name": "锡兰红茶",
+        "price": 11.5,
+        "calories": 2,
+        "protein": 0,
+        "tags": [
+          "热饮",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "3755",
+        "name": "纯牛奶(盒装)",
+        "price": 10.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "冷饮",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "3757",
+        "name": "纯悦",
+        "price": 7.5,
+        "calories": 0,
+        "protein": 0,
+        "tags": [
+          "冷饮",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "4437",
+        "name": "玉米杯",
+        "price": 13,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "小食",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "4648",
+        "name": "不素之霸双层牛堡",
+        "price": 26.5,
+        "calories": 493,
+        "protein": 28,
+        "tags": [
+          "单品",
+          "100%纯牛肉",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "4810",
+        "name": "薯条",
+        "price": 13.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "小食",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "6352",
+        "name": "阳光橙麦炫酷",
+        "price": 13,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "冷饮",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "6362",
+        "name": "100% 苹果汁(盒装)",
+        "price": 11.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "冷饮",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "507389",
+        "name": "浓缩咖啡",
+        "price": 15,
+        "calories": 13,
+        "protein": 1,
+        "tags": [
+          "麦咖啡™咖啡",
+          "麦咖啡™"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "507411",
+        "name": "麦咖啡™美式",
+        "price": 11.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "限定特惠",
+          "麦咖啡™"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "510479",
+        "name": "燕麦奶铁",
+        "price": 9.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦咖啡™咖啡",
+          "麦咖啡™"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "510488",
+        "name": "燕麦奶",
+        "price": 21,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "其他",
+          "麦咖啡™"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "511781",
+        "name": "培根安格斯厚牛堡",
+        "price": 34.5,
+        "calories": 707,
+        "protein": 34,
+        "tags": [
+          "单品",
+          "100%安格斯牛肉",
+          "安格斯MAX\n厚牛堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "511782",
+        "name": "芝士安格斯厚牛堡",
+        "price": 31.5,
+        "calories": 696,
+        "protein": 32,
+        "tags": [
+          "单品",
+          "100%安格斯牛肉",
+          "安格斯MAX\n厚牛堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "514782",
+        "name": "脆脆薯条",
+        "price": 16,
+        "calories": 279,
+        "protein": 4,
+        "tags": [
+          "小食",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "514850",
+        "name": "抹茶阿芙佳朵",
+        "price": 15,
+        "calories": 147,
+        "protein": 3,
+        "tags": [
+          "其他",
+          "麦咖啡™"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "514851",
+        "name": "咖啡阿芙佳朵",
+        "price": 15,
+        "calories": 139,
+        "protein": 4,
+        "tags": [
+          "麦咖啡™咖啡",
+          "麦咖啡™"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "515280",
+        "name": "阳光柠檬红茶",
+        "price": 9.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "冷饮",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "515520",
+        "name": "怡泉+C",
+        "price": 11.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "冷饮",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "515837",
+        "name": "圆筒冰淇淋",
+        "price": 5,
+        "calories": 93,
+        "protein": 2,
+        "tags": [
+          "冰淇淋",
+          "第二份半价",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "515955",
+        "name": "浓浓燕麦黑巧（冰/热）",
+        "price": 15.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "限定特惠",
+          "麦咖啡™"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "520445",
+        "name": "薄皮焦香V翅",
+        "price": 16,
+        "calories": 192,
+        "protein": 17,
+        "tags": [
+          "单品",
+          "人气",
+          "炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "520689",
+        "name": "鲜萃咖啡",
+        "price": 9.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦咖啡™咖啡",
+          "鲜萃咖啡",
+          "麦咖啡™",
+          "热饮",
+          "鲜萃咖啡",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521156",
+        "name": "那么大鸡排（椒盐风味）",
+        "price": 14,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "单品",
+          "炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521316",
+        "name": "高达吉士双牛堡",
+        "price": 22.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "单品",
+          "100%纯牛肉",
+          "人气",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521730",
+        "name": "枫糖风味厚松饼猪柳蛋堡",
+        "price": 22,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "单品",
+          "全球爆款",
+          "全天供应",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521731",
+        "name": "枫糖风味厚松饼猪柳堡",
+        "price": 18,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "单品",
+          "全球爆款",
+          "全天供应",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521741",
+        "name": "脆薯饼",
+        "price": 8.5,
+        "calories": 146,
+        "protein": 1,
+        "tags": [
+          "小食",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": [
+          {
+            "name": "免费脆薯饼",
+            "status": "claimed"
+          }
+        ]
+      },
+      {
+        "id": "521797",
+        "name": "北美招牌牧场酱",
+        "price": 3,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "蘸酱",
+          "使用动物奶油",
+          "蘸酱炸鸡",
+          "蘸酱",
+          "使用动物奶油",
+          "炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521799",
+        "name": "日式鲜磨山葵酱",
+        "price": 3,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "蘸酱",
+          "优选高原山葵",
+          "蘸酱炸鸡",
+          "蘸酱",
+          "优选高原山葵",
+          "炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521817",
+        "name": "【美汁源】“多汁柠柠”",
+        "price": 12,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "上新",
+          "清爽上新",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521881",
+        "name": "马来咖喱风味薄皮肉骨鸡3块",
+        "price": 15.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "上新",
+          "浓郁咖喱飘香",
+          "炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521914",
+        "name": "“葱不求人“按摩捶痒痒挠",
+        "price": 14.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "上新",
+          "既可捶背",
+          "又可挠痒",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521917",
+        "name": "泷愿成真麦旋风——大米风味",
+        "price": 16.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "上新",
+          "快乐旋开吃",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521929",
+        "name": "旋旋水手帽",
+        "price": 48.8,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "上新",
+          "汪苏泷限量周边",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521946",
+        "name": "旋旋星愿贴",
+        "price": 3.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "上新",
+          "汪苏泷限量周边",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521951",
+        "name": "灰焰圆筒",
+        "price": 5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "上新",
+          "灰焰",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521952",
+        "name": "龙焰鸡腿堡",
+        "price": 15.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "韩式辣椒黄油风味",
+          "人气热卖",
+          "上新",
+          "韩式辣椒黄油风味",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521953",
+        "name": "龙焰芝士棒鸡腿堡",
+        "price": 27,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "上新",
+          "浓郁奶香拉丝芝士",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521956",
+        "name": "麦当劳限定丝巾",
+        "price": 34.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "人气热卖",
+          "上新",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "521986",
+        "name": "马苏里拉拉丝芝士条",
+        "price": 11,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "上新",
+          "趁热拉丝",
+          "奶香醇厚",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005456",
+        "name": "麦辣鸡腿汉堡三件套",
+        "price": 33.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "立省10.5元起",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900011056",
+        "name": "全明星双人分享餐八件套",
+        "price": 49.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "人气热卖",
+          "麦金卡",
+          "小食拼盘\n/多人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900016078",
+        "name": "蘸酱麦麦脆汁鸡",
+        "price": 11.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "蘸酱炸鸡",
+          "韩式芝士风味酱上新",
+          "蘸酱炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900016076",
+        "name": "“我就喜欢”鸡薯双全盒",
+        "price": 15.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "心形薯饼同款比心",
+          "人气热卖",
+          "上新",
+          "心形薯饼同款比心",
+          "小食拼盘\n/多人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900016077",
+        "name": "蘸酱炸鸡",
+        "price": 11.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "韩式芝士风味酱上新",
+          "人气热卖"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900016075",
+        "name": "龙焰芝士棒鸡腿堡三件套",
+        "price": 29.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "浓郁奶香拉丝芝士",
+          "人气热卖",
+          "上新",
+          "浓郁奶香拉丝芝士",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900016073",
+        "name": "龙焰鸡腿堡三件套",
+        "price": 26.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "韩式辣椒黄油风味",
+          "人气热卖",
+          "上新",
+          "韩式辣椒黄油风味",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005460",
+        "name": "麦香鱼套餐",
+        "price": 33.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "麦香鱼系列",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005462",
+        "name": "板烧鸡腿堡三件套",
+        "price": 34.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "新升级",
+          "更多汁",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005464",
+        "name": "双层吉士汉堡套餐",
+        "price": 34,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "100%纯牛肉",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900004236",
+        "name": "人气超值四件套随心选",
+        "price": 28,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "精选单人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005466",
+        "name": "巨无霸三件套",
+        "price": 36.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "100%纯牛肉",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900014838",
+        "name": "枫糖风味厚松饼猪柳蛋堡三件套",
+        "price": 27.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "全球爆款",
+          "全天供应",
+          "人气热卖"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005449",
+        "name": "吉士汉堡包套餐",
+        "price": 26,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "100%纯牛肉",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900014837",
+        "name": "枫糖风味厚松饼猪柳蛋堡三件套",
+        "price": 27.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "经典精选",
+          "全球爆款",
+          "全天供应",
+          "精选单人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900010110",
+        "name": "鱼牛汉堡四件套随心选",
+        "price": 32,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "精选单人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005451",
+        "name": "麦辣鸡翅4块套餐",
+        "price": 36.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "立省10.5元起",
+          "炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005453",
+        "name": "麦香鸡套餐",
+        "price": 28,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "立省10.5元起",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900008746",
+        "name": "鸡肉堡单品精选",
+        "price": 23.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "单品",
+          "人气",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900008745",
+        "name": "新地",
+        "price": 12,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "冰淇淋",
+          "第二份半价",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900008747",
+        "name": "牛肉堡单品精选",
+        "price": 14,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "单品",
+          "100%纯牛肉",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900008751",
+        "name": "可乐",
+        "price": 9.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "冷饮",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900006332",
+        "name": "薄皮V翅双拼十翅",
+        "price": 49.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "小食拼盘",
+          "超值",
+          "小食拼盘\n/多人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900008752",
+        "name": "派",
+        "price": 8.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "派",
+          "第二份优惠",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900008754",
+        "name": "经典麦旋风",
+        "price": 15.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "冰淇淋",
+          "第二份半价",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005468",
+        "name": "培根蔬萃双层牛堡三件套",
+        "price": 35.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "100%纯牛肉",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900006957",
+        "name": "安格斯厚牛堡四件套随心选",
+        "price": 37,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "精选单人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900014974",
+        "name": "枫糖风味厚松饼猪柳堡三件套",
+        "price": 23.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "经典精选",
+          "全球爆款",
+          "全天供应",
+          "精选单人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900015151",
+        "name": "麦麦周末双人餐",
+        "price": 49.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "全球爆款",
+          "全天供应",
+          "人气热卖",
+          "多人餐",
+          "全球爆款",
+          "全天供应",
+          "小食拼盘\n/多人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900016082",
+        "name": "心形薯饼5块",
+        "price": 14.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "上新",
+          "口口酥脆",
+          "含一份蘸酱",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005413",
+        "name": "双层深海鳕鱼堡三件套",
+        "price": 35,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "麦香鱼系列",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900016309",
+        "name": "龙焰鸡腿堡四件套",
+        "price": 29,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900015730",
+        "name": "BFF四宫格小食盘",
+        "price": 39.8,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "小食拼盘",
+          "随心拼",
+          "小食拼盘\n/多人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900016310",
+        "name": "龙焰芝士棒鸡腿堡四件套",
+        "price": 32,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900004835",
+        "name": "麦乐鸡套餐",
+        "price": 25,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "立省10.5元起",
+          "炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900014092",
+        "name": "麦当劳奶昔",
+        "price": 15,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "奶昔回归",
+          "人气热卖",
+          "上新",
+          "奶昔回归",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005421",
+        "name": "鱼排堡开心乐园餐",
+        "price": 24,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "童年童款",
+          "开心乐园"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900003586",
+        "name": "双层深海鳕鱼堡",
+        "price": 24,
+        "calories": 485,
+        "protein": 28,
+        "tags": [
+          "单品",
+          "麦香鱼系列",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005422",
+        "name": "汉堡开心乐园餐",
+        "price": 23.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "童年童款",
+          "开心乐园"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900000890",
+        "name": "板烧鸡腿堡四件套",
+        "price": 28,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900015729",
+        "name": "蘸酱BFF四宫格小食盘",
+        "price": 42.8,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "蘸酱炸鸡",
+          "蘸酱炸鸡新吃法",
+          "蘸酱炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900013304",
+        "name": "人气经典随心配",
+        "price": 14.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "超值百种组合随心配",
+          "随心配\n1+1"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900011126",
+        "name": "酥脆无双套餐",
+        "price": 20,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "500\n大卡套餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900015602",
+        "name": "大堡口福三件套",
+        "price": 22.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "大口吃肉好快乐",
+          "大堡口福\n单人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900015568",
+        "name": "精选超值随心配",
+        "price": 13.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "超值百种组合随心配",
+          "随心配\n1+1"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900011123",
+        "name": "“辣”么快乐套餐",
+        "price": 24,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "500\n大卡套餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900016301",
+        "name": "枫糖风味厚松饼猪柳蛋堡四件套",
+        "price": 28,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900000888",
+        "name": "巨无霸四件套",
+        "price": 32,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900000886",
+        "name": "不素之霸双层牛堡四件套",
+        "price": 32,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900000885",
+        "name": "培根蔬萃双层牛堡四件套",
+        "price": 32,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900000882",
+        "name": "芝士安格斯厚牛堡四件套",
+        "price": 37,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "安格斯MAX\n厚牛堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005411",
+        "name": "不素之霸双层牛堡三件套",
+        "price": 37.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "100%纯牛肉",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900000881",
+        "name": "培根安格斯厚牛堡四件套",
+        "price": 37,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "安格斯MAX\n厚牛堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900004066",
+        "name": "堡堡随心拼（7件任选）",
+        "price": 72.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "小食拼盘",
+          "万种组合",
+          "小食拼盘\n/多人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900004064",
+        "name": "精选单人餐三件套",
+        "price": 34.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "爆款",
+          "人气热卖",
+          "经典精选",
+          "爆款",
+          "精选单人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900016566",
+        "name": "心形薯饼8块",
+        "price": 9.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "限时特惠",
+          "人气热卖",
+          "上新",
+          "限时特惠",
+          "小食甜品\n/其他"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900009245",
+        "name": "牛气满满套餐",
+        "price": 35,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "500\n大卡套餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900000893",
+        "name": "双层深海鳕鱼堡四件套",
+        "price": 32,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "巨无霸\n牛鱼肉堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005321",
+        "name": "BFF四宫格小食盘双人餐",
+        "price": 62.9,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "小食拼盘\n/多人餐"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900000891",
+        "name": "麦辣鸡腿堡四件套",
+        "price": 28,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "麦金卡",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005428",
+        "name": "培根安格斯厚牛堡三件套",
+        "price": 45.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "100%安格斯牛肉",
+          "安格斯MAX\n厚牛堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900003538",
+        "name": "学生专享饮品随心选",
+        "price": 10,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "冷饮",
+          "饮品"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900003537",
+        "name": "学生专享汉堡小食随心选",
+        "price": 27,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "鸡肉汉堡\n/卷"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005430",
+        "name": "芝士安格斯厚牛堡三件套",
+        "price": 42.5,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "套餐",
+          "100%安格斯牛肉",
+          "安格斯MAX\n厚牛堡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      },
+      {
+        "id": "9900005432",
+        "name": "麦麦脆汁鸡1块",
+        "price": 15,
+        "calories": null,
+        "protein": null,
+        "tags": [
+          "单品",
+          "炸鸡"
+        ],
+        "source": "麦当劳 MCP",
+        "coupons": []
+      }
+    ],
+    "live": true,
+    "updatedAt": "2026-10-25T07:48:40.930Z",
+    "toolName": "query-meals",
+    "store": {
+      "storeCode": "1450713",
+      "storeName": "麦当劳上海黄浦华旭国际大厦餐厅",
+      "address": "南京东路街道西藏中路336号",
+      "distance": 144
+    }
+  },
+  "ruleResults": [
+    {
+      "case": {
+        "id": "baseline",
+        "request": "",
+        "expected": []
+      },
+      "participantId": "baseline",
+      "items": [
+        {
+          "id": "521952",
+          "name": "龙焰鸡腿堡",
+          "price": 15.9,
+          "category": "main"
+        },
+        {
+          "id": "521741",
+          "name": "脆薯饼",
+          "price": 8.5,
+          "category": "side"
+        },
+        {
+          "id": "3757",
+          "name": "纯悦",
+          "price": 7.5,
+          "category": "drink"
+        }
+      ],
+      "totalPrice": 31.9,
+      "score": 82.2,
+      "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+      "constraints": [
+        "部分餐品营养暂未获取，不展示不完整的营养总量。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "龙焰鸡腿堡",
+            "脆薯饼"
+          ],
+          "totalPrice": 24.4,
+          "score": 74.4
+        },
+        {
+          "items": [
+            "麦香鸡",
+            "脆薯饼",
+            "纯悦"
+          ],
+          "totalPrice": 33,
+          "score": 82
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "burger-sprite",
+        "request": "我要汉堡和雪碧",
+        "expected": [
+          "主食",
+          "雪碧"
+        ]
+      },
+      "participantId": "burger-sprite",
+      "items": [
+        {
+          "id": "521952",
+          "name": "龙焰鸡腿堡",
+          "price": 15.9,
+          "category": "main"
+        },
+        {
+          "id": "521741",
+          "name": "脆薯饼",
+          "price": 8.5,
+          "category": "side"
+        },
+        {
+          "id": "3757",
+          "name": "纯悦",
+          "price": 7.5,
+          "category": "drink"
+        }
+      ],
+      "totalPrice": 31.9,
+      "score": 82.2,
+      "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+      "constraints": [
+        "部分餐品营养暂未获取，不展示不完整的营养总量。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "龙焰鸡腿堡",
+            "脆薯饼"
+          ],
+          "totalPrice": 24.4,
+          "score": 74.4
+        },
+        {
+          "items": [
+            "麦香鸡",
+            "脆薯饼",
+            "纯悦"
+          ],
+          "totalPrice": 33,
+          "score": 82
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "grilled-short",
+        "request": "我要吃板烧",
+        "expected": [
+          "板烧"
+        ]
+      },
+      "participantId": "grilled-short",
+      "items": [
+        {
+          "id": "521952",
+          "name": "龙焰鸡腿堡",
+          "price": 15.9,
+          "category": "main"
+        },
+        {
+          "id": "521741",
+          "name": "脆薯饼",
+          "price": 8.5,
+          "category": "side"
+        },
+        {
+          "id": "3757",
+          "name": "纯悦",
+          "price": 7.5,
+          "category": "drink"
+        }
+      ],
+      "totalPrice": 31.9,
+      "score": 82.2,
+      "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+      "constraints": [
+        "部分餐品营养暂未获取，不展示不完整的营养总量。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "龙焰鸡腿堡",
+            "脆薯饼"
+          ],
+          "totalPrice": 24.4,
+          "score": 74.4
+        },
+        {
+          "items": [
+            "麦香鸡",
+            "脆薯饼",
+            "纯悦"
+          ],
+          "totalPrice": 33,
+          "score": 82
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "grilled-sprite",
+        "request": "我要吃板烧鸡腿堡和雪碧",
+        "expected": [
+          "板烧",
+          "雪碧"
+        ]
+      },
+      "participantId": "grilled-sprite",
+      "items": [
+        {
+          "id": "521952",
+          "name": "龙焰鸡腿堡",
+          "price": 15.9,
+          "category": "main"
+        },
+        {
+          "id": "521741",
+          "name": "脆薯饼",
+          "price": 8.5,
+          "category": "side"
+        },
+        {
+          "id": "3757",
+          "name": "纯悦",
+          "price": 7.5,
+          "category": "drink"
+        }
+      ],
+      "totalPrice": 31.9,
+      "score": 82.2,
+      "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+      "constraints": [
+        "部分餐品营养暂未获取，不展示不完整的营养总量。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "龙焰鸡腿堡",
+            "脆薯饼"
+          ],
+          "totalPrice": 24.4,
+          "score": 74.4
+        },
+        {
+          "items": [
+            "麦香鸡",
+            "脆薯饼",
+            "纯悦"
+          ],
+          "totalPrice": 33,
+          "score": 82
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "fish",
+        "request": "我要吃麦香鱼",
+        "expected": [
+          "麦香鱼"
+        ]
+      },
+      "participantId": "fish",
+      "items": [
+        {
+          "id": "521952",
+          "name": "龙焰鸡腿堡",
+          "price": 15.9,
+          "category": "main"
+        },
+        {
+          "id": "521741",
+          "name": "脆薯饼",
+          "price": 8.5,
+          "category": "side"
+        },
+        {
+          "id": "3757",
+          "name": "纯悦",
+          "price": 7.5,
+          "category": "drink"
+        }
+      ],
+      "totalPrice": 31.9,
+      "score": 82.2,
+      "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+      "constraints": [
+        "部分餐品营养暂未获取，不展示不完整的营养总量。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "龙焰鸡腿堡",
+            "脆薯饼"
+          ],
+          "totalPrice": 24.4,
+          "score": 74.4
+        },
+        {
+          "items": [
+            "麦香鸡",
+            "脆薯饼",
+            "纯悦"
+          ],
+          "totalPrice": 33,
+          "score": 82
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "burger-coke",
+        "request": "我要汉堡和可乐",
+        "expected": [
+          "主食",
+          "可乐"
+        ]
+      },
+      "participantId": "burger-coke",
+      "items": [
+        {
+          "id": "521952",
+          "name": "龙焰鸡腿堡",
+          "price": 15.9,
+          "category": "main"
+        },
+        {
+          "id": "521741",
+          "name": "脆薯饼",
+          "price": 8.5,
+          "category": "side"
+        },
+        {
+          "id": "3757",
+          "name": "纯悦",
+          "price": 7.5,
+          "category": "drink"
+        }
+      ],
+      "totalPrice": 31.9,
+      "score": 82.2,
+      "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+      "constraints": [
+        "部分餐品营养暂未获取，不展示不完整的营养总量。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "龙焰鸡腿堡",
+            "脆薯饼"
+          ],
+          "totalPrice": 24.4,
+          "score": 74.4
+        },
+        {
+          "items": [
+            "麦香鸡",
+            "脆薯饼",
+            "纯悦"
+          ],
+          "totalPrice": 33,
+          "score": 82
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "fries-positive",
+        "request": "我要吃薯条",
+        "expected": [
+          "薯条"
+        ]
+      },
+      "participantId": "fries-positive",
+      "items": [
+        {
+          "id": "521952",
+          "name": "龙焰鸡腿堡",
+          "price": 15.9,
+          "category": "main"
+        },
+        {
+          "id": "4810",
+          "name": "薯条",
+          "price": 13.5,
+          "category": "side"
+        },
+        {
+          "id": "3757",
+          "name": "纯悦",
+          "price": 7.5,
+          "category": "drink"
+        }
+      ],
+      "totalPrice": 36.9,
+      "score": 136.4,
+      "reason": "按适中饥饿程度搭配3项餐品，合计 36.90 元，未超过 60 元预算。",
+      "constraints": [
+        "部分餐品营养暂未获取，不展示不完整的营养总量。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "龙焰鸡腿堡",
+            "薯条"
+          ],
+          "totalPrice": 29.4,
+          "score": 128.6
+        },
+        {
+          "items": [
+            "麦香鸡",
+            "薯条",
+            "纯悦"
+          ],
+          "totalPrice": 38,
+          "score": 136.2
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "fries-negative",
+        "request": "不要薯条，要板烧和雪碧",
+        "expected": [
+          "板烧",
+          "雪碧"
+        ],
+        "forbidden": [
+          "薯条"
+        ]
+      },
+      "participantId": "fries-negative",
+      "items": [
+        {
+          "id": "521952",
+          "name": "龙焰鸡腿堡",
+          "price": 15.9,
+          "category": "main"
+        },
+        {
+          "id": "4810",
+          "name": "薯条",
+          "price": 13.5,
+          "category": "side"
+        },
+        {
+          "id": "3757",
+          "name": "纯悦",
+          "price": 7.5,
+          "category": "drink"
+        }
+      ],
+      "totalPrice": 36.9,
+      "score": 136.4,
+      "reason": "按适中饥饿程度搭配3项餐品，合计 36.90 元，未超过 60 元预算。",
+      "constraints": [
+        "部分餐品营养暂未获取，不展示不完整的营养总量。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "龙焰鸡腿堡",
+            "薯条"
+          ],
+          "totalPrice": 29.4,
+          "score": 128.6
+        },
+        {
+          "items": [
+            "麦香鸡",
+            "薯条",
+            "纯悦"
+          ],
+          "totalPrice": 38,
+          "score": 136.2
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "no-drink",
+        "request": "不喝饮料，要板烧",
+        "expected": [
+          "板烧"
+        ],
+        "forbidden": [
+          "饮品"
+        ]
+      },
+      "participantId": "no-drink",
+      "items": [
+        {
+          "id": "521952",
+          "name": "龙焰鸡腿堡",
+          "price": 15.9,
+          "category": "main"
+        },
+        {
+          "id": "521741",
+          "name": "脆薯饼",
+          "price": 8.5,
+          "category": "side"
+        }
+      ],
+      "totalPrice": 24.4,
+      "score": 74.4,
+      "reason": "按适中饥饿程度搭配2项餐品，合计 24.40 元，未超过 60 元预算。",
+      "constraints": [
+        "本组合未搭配饮品；不为凑齐品类突破预算。",
+        "部分餐品营养暂未获取，不展示不完整的营养总量。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "酥脆无双套餐"
+          ],
+          "totalPrice": 20,
+          "score": 68.9
+        },
+        {
+          "items": [
+            "麦香鸡",
+            "脆薯饼"
+          ],
+          "totalPrice": 25.5,
+          "score": 74.3
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "sprite-only",
+        "request": "只要一杯雪碧，不要其他食物",
+        "expected": [
+          "雪碧"
+        ],
+        "only": true
+      },
+      "participantId": "sprite-only",
+      "items": [
+        {
+          "id": "521952",
+          "name": "龙焰鸡腿堡",
+          "price": 15.9,
+          "category": "main"
+        },
+        {
+          "id": "521741",
+          "name": "脆薯饼",
+          "price": 8.5,
+          "category": "side"
+        },
+        {
+          "id": "3757",
+          "name": "纯悦",
+          "price": 7.5,
+          "category": "drink"
+        }
+      ],
+      "totalPrice": 31.9,
+      "score": 82.2,
+      "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+      "constraints": [
+        "部分餐品营养暂未获取，不展示不完整的营养总量。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "龙焰鸡腿堡",
+            "脆薯饼"
+          ],
+          "totalPrice": 24.4,
+          "score": 74.4
+        },
+        {
+          "items": [
+            "麦香鸡",
+            "脆薯饼",
+            "纯悦"
+          ],
+          "totalPrice": 33,
+          "score": 82
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "impossible-budget",
+        "request": "我要板烧鸡腿堡和雪碧",
+        "expected": [
+          "板烧",
+          "雪碧"
+        ],
+        "budget": 10
+      },
+      "participantId": "impossible-budget",
+      "items": [
+        {
+          "id": "521741",
+          "name": "脆薯饼",
+          "price": 8.5,
+          "category": "side"
+        }
+      ],
+      "totalPrice": 8.5,
+      "score": 3,
+      "reason": "按适中饥饿程度搭配1项餐品，合计 8.50 元，未超过 10 元预算。",
+      "constraints": [
+        "当前偏好与预算下未搭配主食，可能不够饱。",
+        "本组合未搭配饮品；不为凑齐品类突破预算。",
+        "预算或可用餐品限制了搭配份量，可能无法满足当前饥饿程度。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "圆筒冰淇淋"
+          ],
+          "totalPrice": 5,
+          "score": -5.7
+        },
+        {
+          "items": [
+            "心形薯饼8块"
+          ],
+          "totalPrice": 9.9,
+          "score": 1.6
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "fries-sprite",
+        "request": "我要汉堡、薯条和雪碧",
+        "expected": [
+          "主食",
+          "薯条",
+          "雪碧"
+        ]
+      },
+      "participantId": "fries-sprite",
+      "items": [
+        {
+          "id": "521952",
+          "name": "龙焰鸡腿堡",
+          "price": 15.9,
+          "category": "main"
+        },
+        {
+          "id": "4810",
+          "name": "薯条",
+          "price": 13.5,
+          "category": "side"
+        },
+        {
+          "id": "3757",
+          "name": "纯悦",
+          "price": 7.5,
+          "category": "drink"
+        }
+      ],
+      "totalPrice": 36.9,
+      "score": 136.4,
+      "reason": "按适中饥饿程度搭配3项餐品，合计 36.90 元，未超过 60 元预算。",
+      "constraints": [
+        "部分餐品营养暂未获取，不展示不完整的营养总量。",
+        "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+      ],
+      "alternatives": [
+        {
+          "items": [
+            "龙焰鸡腿堡",
+            "薯条"
+          ],
+          "totalPrice": 29.4,
+          "score": 128.6
+        },
+        {
+          "items": [
+            "麦香鸡",
+            "薯条",
+            "纯悦"
+          ],
+          "totalPrice": 38,
+          "score": 136.2
+        }
+      ]
+    }
+  ],
+  "apiResults": [
+    {
+      "base": "http://127.0.0.1:3012",
+      "caseIds": [
+        "baseline",
+        "burger-sprite",
+        "grilled-short",
+        "grilled-sprite"
+      ],
+      "status": 200,
+      "durationMs": 10897,
+      "mealCount": 117,
+      "judge": {
+        "engine": "openrouter",
+        "model": "qwen/qwen3.7-flash:nitro"
+      },
+      "verdict": {
+        "caseNumber": "MC-2026-2792",
+        "caseName": "麦门食堂分配案",
+        "opening": "本庭查明，四位食客均处于“适中饥饿”状态，预算充足（60元），且诉求各异但结果趋同。现判决如下：",
+        "opinions": [
+          "被告 baseline：虽无具体诉求，但本庭酌情判处“龙焰鸡腿堡+脆薯饼+纯悦”组合一份。总价31.9元，未超预算。鉴于部分营养数据缺失，本庭不予评价其卡路里摄入，仅确认饱腹感大致达标。退庭。",
+          "被告 burger-sprite：诉求明确（汉堡配雪碧）。然本庭依职权调整饮品为“纯悦”，餐品维持“龙焰鸡腿堡+脆薯饼”。此乃因系统推荐逻辑使然，非本庭偏袒。总价31.9元，合规。请被告咽下这份无奈，继续咀嚼。",
+          "被告 grilled-short：点名要“板烧”，但本庭未见板烧身影，反见“龙焰”当道。此系算法之过，非法庭之罪。搭配脆薯饼与纯水，总价31.9元。虽未满足特定口味偏好，但符合总体平衡原则。请被告不要对着菜单叹气。",
+          "被告 grilled-sprite：既想要板烧又要雪碧，贪心不足。本庭驳回其特殊偏好，改判标准套餐“龙焰鸡腿堡+脆薯饼+纯悦”。总价31.9元，未超标。生活就是这样，你未必能吃到想吃的，但总能吃到能吃的。"
+        ],
+        "ruling": "综上，四人所得餐单一致，总价均为31.9元。营养总量因数据缺失无法计算，本庭保持沉默。本判决为终审判决，吃完即止，不得上诉。",
+        "recommendations": [
+          {
+            "participantId": "baseline",
+            "items": [
+              {
+                "id": "521952",
+                "name": "龙焰鸡腿堡",
+                "price": 15.9,
+                "category": "main"
+              },
+              {
+                "id": "521741",
+                "name": "脆薯饼",
+                "price": 8.5,
+                "category": "side"
+              },
+              {
+                "id": "3757",
+                "name": "纯悦",
+                "price": 7.5,
+                "category": "drink"
+              }
+            ],
+            "totalPrice": 31.9,
+            "score": 82.2,
+            "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+            "constraints": [
+              "部分餐品营养暂未获取，不展示不完整的营养总量。",
+              "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+            ],
+            "alternatives": [
+              {
+                "items": [
+                  "龙焰鸡腿堡",
+                  "脆薯饼"
+                ],
+                "totalPrice": 24.4,
+                "score": 74.4
+              },
+              {
+                "items": [
+                  "麦香鸡",
+                  "脆薯饼",
+                  "纯悦"
+                ],
+                "totalPrice": 33,
+                "score": 82
+              }
+            ]
+          },
+          {
+            "participantId": "burger-sprite",
+            "items": [
+              {
+                "id": "521952",
+                "name": "龙焰鸡腿堡",
+                "price": 15.9,
+                "category": "main"
+              },
+              {
+                "id": "521741",
+                "name": "脆薯饼",
+                "price": 8.5,
+                "category": "side"
+              },
+              {
+                "id": "3757",
+                "name": "纯悦",
+                "price": 7.5,
+                "category": "drink"
+              }
+            ],
+            "totalPrice": 31.9,
+            "score": 82.2,
+            "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+            "constraints": [
+              "部分餐品营养暂未获取，不展示不完整的营养总量。",
+              "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+            ],
+            "alternatives": [
+              {
+                "items": [
+                  "龙焰鸡腿堡",
+                  "脆薯饼"
+                ],
+                "totalPrice": 24.4,
+                "score": 74.4
+              },
+              {
+                "items": [
+                  "麦香鸡",
+                  "脆薯饼",
+                  "纯悦"
+                ],
+                "totalPrice": 33,
+                "score": 82
+              }
+            ]
+          },
+          {
+            "participantId": "grilled-short",
+            "items": [
+              {
+                "id": "521952",
+                "name": "龙焰鸡腿堡",
+                "price": 15.9,
+                "category": "main"
+              },
+              {
+                "id": "521741",
+                "name": "脆薯饼",
+                "price": 8.5,
+                "category": "side"
+              },
+              {
+                "id": "3757",
+                "name": "纯悦",
+                "price": 7.5,
+                "category": "drink"
+              }
+            ],
+            "totalPrice": 31.9,
+            "score": 82.2,
+            "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+            "constraints": [
+              "部分餐品营养暂未获取，不展示不完整的营养总量。",
+              "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+            ],
+            "alternatives": [
+              {
+                "items": [
+                  "龙焰鸡腿堡",
+                  "脆薯饼"
+                ],
+                "totalPrice": 24.4,
+                "score": 74.4
+              },
+              {
+                "items": [
+                  "麦香鸡",
+                  "脆薯饼",
+                  "纯悦"
+                ],
+                "totalPrice": 33,
+                "score": 82
+              }
+            ]
+          },
+          {
+            "participantId": "grilled-sprite",
+            "items": [
+              {
+                "id": "521952",
+                "name": "龙焰鸡腿堡",
+                "price": 15.9,
+                "category": "main"
+              },
+              {
+                "id": "521741",
+                "name": "脆薯饼",
+                "price": 8.5,
+                "category": "side"
+              },
+              {
+                "id": "3757",
+                "name": "纯悦",
+                "price": 7.5,
+                "category": "drink"
+              }
+            ],
+            "totalPrice": 31.9,
+            "score": 82.2,
+            "reason": "按适中饥饿程度搭配3项餐品，合计 31.90 元，未超过 60 元预算。",
+            "constraints": [
+              "部分餐品营养暂未获取，不展示不完整的营养总量。",
+              "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+            ],
+            "alternatives": [
+              {
+                "items": [
+                  "龙焰鸡腿堡",
+                  "脆薯饼"
+                ],
+                "totalPrice": 24.4,
+                "score": 74.4
+              },
+              {
+                "items": [
+                  "麦香鸡",
+                  "脆薯饼",
+                  "纯悦"
+                ],
+                "totalPrice": 33,
+                "score": 82
+              }
+            ]
+          }
+        ],
+        "live": true,
+        "sourceUpdatedAt": "2026-10-25T07:48:40.957Z",
+        "store": {
+          "storeCode": "1450713",
+          "storeName": "麦当劳上海黄浦华旭国际大厦餐厅",
+          "address": "南京东路街道西藏中路336号",
+          "distance": 144
+        }
+      }
+    },
+    {
+      "base": "https://mccourt.vercel.app",
+      "error": "fetch failed"
+    },
+    {
+      "base": "https://mccourt.vercel.app",
+      "error": "fetch failed"
+    }
+  ],
+  "appeal": {
+    "request": {
+      "participant": {
+        "id": "grilled-sprite",
+        "name": "grilled-sprite",
+        "budget": 60,
+        "taste": [],
+        "goal": "",
+        "hunger": 3,
+        "request": "我要吃板烧鸡腿堡和雪碧"
+      },
+      "reason": "我明确要板烧鸡腿堡和雪碧，不要其他汉堡和纯悦",
+      "previousItemIds": [
+        "521952",
+        "521741",
+        "3757"
+      ],
+      "mode": "live",
+      "storeCode": "1450713"
+    },
+    "status": 200,
+    "body": {
+      "recommendation": {
+        "participantId": "grilled-sprite",
+        "items": [
+          {
+            "id": "1450",
+            "name": "麦香鸡",
+            "price": 17,
+            "calories": 369,
+            "protein": 15,
+            "tags": [
+              "单品",
+              "鸡肉汉堡\n/卷"
+            ],
+            "source": "麦当劳 MCP",
+            "coupons": []
+          },
+          {
+            "id": "521741",
+            "name": "脆薯饼",
+            "price": 8.5,
+            "calories": 146,
+            "protein": 1,
+            "tags": [
+              "小食",
+              "小食甜品\n/其他"
+            ],
+            "source": "麦当劳 MCP",
+            "coupons": [
+              {
+                "name": "免费脆薯饼",
+                "status": "claimed"
+              }
+            ]
+          },
+          {
+            "id": "3757",
+            "name": "纯悦",
+            "price": 7.5,
+            "calories": 0,
+            "protein": 0,
+            "tags": [
+              "冷饮",
+              "饮品"
+            ],
+            "source": "麦当劳 MCP",
+            "coupons": []
+          }
+        ],
+        "totalPrice": 33,
+        "calories": 515,
+        "protein": 16,
+        "score": 82,
+        "reason": "按适中饥饿程度搭配3项餐品，合计 33.00 元，未超过 60 元预算。",
+        "constraints": [
+          "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+        ],
+        "alternatives": [
+          {
+            "items": [
+              {
+                "id": "521952",
+                "name": "龙焰鸡腿堡",
+                "price": 15.9,
+                "calories": null,
+                "protein": null,
+                "tags": [
+                  "韩式辣椒黄油风味",
+                  "人气热卖",
+                  "上新",
+                  "韩式辣椒黄油风味",
+                  "鸡肉汉堡\n/卷"
+                ],
+                "source": "麦当劳 MCP",
+                "coupons": []
+              },
+              {
+                "id": "521741",
+                "name": "脆薯饼",
+                "price": 8.5,
+                "calories": 146,
+                "protein": 1,
+                "tags": [
+                  "小食",
+                  "小食甜品\n/其他"
+                ],
+                "source": "麦当劳 MCP",
+                "coupons": [
+                  {
+                    "name": "免费脆薯饼",
+                    "status": "claimed"
+                  }
+                ]
+              }
+            ],
+            "totalPrice": 24.4,
+            "calories": null,
+            "protein": null,
+            "score": 74.4,
+            "reason": "按适中饥饿程度搭配2项餐品，合计 24.40 元，未超过 60 元预算。",
+            "constraints": [
+              "本组合未搭配饮品；不为凑齐品类突破预算。",
+              "部分餐品营养暂未获取，不展示不完整的营养总量。",
+              "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+            ]
+          },
+          {
+            "items": [
+              {
+                "id": "521952",
+                "name": "龙焰鸡腿堡",
+                "price": 15.9,
+                "calories": null,
+                "protein": null,
+                "tags": [
+                  "韩式辣椒黄油风味",
+                  "人气热卖",
+                  "上新",
+                  "韩式辣椒黄油风味",
+                  "鸡肉汉堡\n/卷"
+                ],
+                "source": "麦当劳 MCP",
+                "coupons": []
+              },
+              {
+                "id": "9900016566",
+                "name": "心形薯饼8块",
+                "price": 9.9,
+                "calories": null,
+                "protein": null,
+                "tags": [
+                  "限时特惠",
+                  "人气热卖",
+                  "上新",
+                  "限时特惠",
+                  "小食甜品\n/其他"
+                ],
+                "source": "麦当劳 MCP",
+                "coupons": []
+              },
+              {
+                "id": "3757",
+                "name": "纯悦",
+                "price": 7.5,
+                "calories": 0,
+                "protein": 0,
+                "tags": [
+                  "冷饮",
+                  "饮品"
+                ],
+                "source": "麦当劳 MCP",
+                "coupons": []
+              }
+            ],
+            "totalPrice": 33.3,
+            "calories": null,
+            "protein": null,
+            "score": 82,
+            "reason": "按适中饥饿程度搭配3项餐品，合计 33.30 元，未超过 60 元预算。",
+            "constraints": [
+              "部分餐品营养暂未获取，不展示不完整的营养总量。",
+              "搭配份量按餐品类别粗略估计，实际饱腹感因人而异。"
+            ]
+          }
+        ]
+      },
+      "live": true,
+      "updatedAt": "2026-10-25T07:49:39.373Z",
+      "warning": null,
+      "message": null
+    }
+  }
+}
