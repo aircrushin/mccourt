@@ -1,3 +1,4 @@
+import { couponsForMeal, parseCoupons, toolPayload } from './coupons';
 import type { Meal } from '@/lib/types/index';
 
 type JsonRpc = { jsonrpc: '2.0'; id: number; result?: any; error?: { code: number; message: string } };
@@ -87,6 +88,31 @@ export async function fetchMeals(): Promise<{ meals: Meal[]; live: boolean; warn
         return match ? { ...meal, calories:match.calories, protein:match.protein } : meal;
       });
     } catch { /* nutrition is optional; missing fields stay null and are shown as unavailable */ }
+    try {
+      const { coupons } = await fetchAvailableCoupons();
+      meals = meals.map(meal => ({ ...meal, coupons: couponsForMeal(meal.name, coupons) }));
+    } catch { /* Coupon availability must not prevent meal recommendations. */ }
     return { meals, live:true, warning:meals.length ? undefined : '已调用 query-meals，但响应中没有可验证的标准化餐品数据。', updatedAt:new Date().toISOString(), toolName:'query-meals' };
   } catch (error) { return { meals:[], live:true, warning:`MCP 餐品查询失败：${error instanceof Error ? error.message : '未知错误'}`, updatedAt:new Date().toISOString(), toolName:'query-meals' }; }
+}
+
+export async function fetchAvailableCoupons() {
+  const discovered = await discoverMcpTools();
+  if (!discovered.live) throw new Error('领券服务尚未配置。');
+  const response = await rpc({ jsonrpc:'2.0', id:6, method:'tools/call', params:{ name:'available-coupons', arguments:{} } }, discovered.sessionId);
+  return { coupons: parseCoupons(response.result), sessionId: response.sessionId };
+}
+
+export async function claimCoupons(couponName: string) {
+  const { coupons, sessionId } = await fetchAvailableCoupons();
+  const coupon = coupons.find(item => item.name === couponName);
+  if (!coupon) throw new Error('该优惠券当前不可领取，请重新生成推荐。');
+  if (coupon.status === 'claimed') return { message: '这张优惠券已领取，可前往麦当劳查看使用条件。', claimed: true };
+  const response = await rpc({ jsonrpc:'2.0', id:7, method:'tools/call', params:{ name:'auto-bind-coupons', arguments:{} } }, sessionId);
+  const payload = toolPayload(response.result);
+  if (payload?.success === false || (payload?.code != null && payload.code !== 200)) throw new Error('领取失败，请稍后重试。');
+  // Re-query instead of assuming every coupon succeeded in a partially successful batch.
+  const refreshed = await fetchAvailableCoupons();
+  const claimed = refreshed.coupons.some(item => item.name === couponName && item.status === 'claimed');
+  return { claimed, message: claimed ? '领取成功，可前往麦当劳查看使用条件。' : '已提交一键领券，暂未确认这张券领取成功，请稍后重试或到麦当劳查看。' };
 }

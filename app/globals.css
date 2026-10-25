@@ -145,3 +145,6 @@ button:focus-visible, summary:focus-visible { outline: 3px solid var(--red); out
 .custom-appeal { width: 100%; display: grid; gap: 8px; }
 .custom-appeal label { font-size: 12px; font-weight: 700; }
 .custom-appeal button { justify-self: start; min-height: 44px; }
+
+.meal-coupon { margin-top: 10px; }
+.meal-coupon .chip { margin-top: 6px; min-height: 44px; white-space: normal; text-align: left; }

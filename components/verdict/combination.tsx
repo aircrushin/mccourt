@@ -1,3 +1,4 @@
+import { CouponButton } from './coupon-button';
 import type { MealCombination } from '@/lib/types/index';
 import { mealCategory } from '@/lib/court/recommend';
 
@@ -8,7 +9,7 @@ export function Combination({ combination, budget, compact = false }: { combinat
   return <div className={compact ? 'combination compact' : 'combination'}>
     <ul className="receipt-items" aria-label="组合餐品">
       {combination.items.map(item => <li key={item.id}>
-        <div><span className="food-category">{CATEGORY_LABEL[mealCategory(item)]}</span><strong>{item.name}</strong><small>来源：{item.source}</small></div>
+        <div><span className="food-category">{CATEGORY_LABEL[mealCategory(item)]}</span><strong>{item.name}</strong><small>来源：{item.source}</small>{item.coupons?.map(coupon => <CouponButton key={coupon.name} coupon={coupon} />)}</div>
         <span className="item-price">{item.price != null ? money(item.price) : '暂未获取'}</span>
       </li>)}
     </ul>
