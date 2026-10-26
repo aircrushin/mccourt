@@ -37,6 +37,30 @@ McCourt 是一个移动端优先的互动 Web 产品，把多人点餐争论变�
 - `/api/recommend`、`/api/appeal`、`/api/mcd/status`、`/api/health`
 - `skills/mccourt/SKILL.md` 与比赛材料
 
+## 安装 Agent Skill
+
+使用支持 Agent Skills 的客户端，通过 [Skills CLI](https://github.com/vercel-labs/skills/blob/main/docs/commands.md) 安装（当前 CLI 要求 Node.js 22.20 或更高版本）：
+
+```bash
+# 安装到当前项目，按提示选择 Agent
+npx skills add aircrushin/mccourt --skill mccourt
+
+# 或安装到用户目录，供多个项目使用
+npx skills add aircrushin/mccourt --skill mccourt -g
+```
+
+安装后可对 Agent 说：“用 mccourt 帮两个人点麦当劳，每人预算 30 元，一个想多吃鸡肉，一个必须有薯条，地点是北京朝阳大悦城。”
+
+Skill 默认调用 `https://mccourt.vercel.app`，也可指定自己的服务地址，或在调用方环境设置 `MCCOURT_BASE_URL=http://127.0.0.1:3000`。Skill 安装仅提供操作指引及接口文档，不会安装网站依赖、启动服务或配置 MCP Token。实时数据使用所选服务端的 MCP 账户；调用者无需向 HTTP 推荐接口提交 Token。
+
+- 使用已有服务：提供预算、诉求和位置即可请求实时推荐；使用“体验固定案例”可请求 Demo。
+- 自行运行服务：按技能包内的 [本地运行步骤](./skills/mccourt/references/local-service.md) 操作，Demo 无需 MCP Token；Live 需在服务端配置 `MCD_MCP_TOKEN`。
+- [Skill 入口](./skills/mccourt/SKILL.md) 与 [HTTP API 示例](./skills/mccourt/references/http-api.md) 包含推荐、响应字段和单人上诉说明。
+
+本地修改后的 skill 可在其他测试项目目录中执行 `npx skills add /path/to/mccourt/skills/mccourt --skill mccourt` 安装验证。远程命令读取 GitHub 上已推送的版本。
+
+Skill 文件托管在本仓库，无需另外上传到 [skills.sh](https://skills.sh)。按其 [官方收录说明](https://skills.sh/docs/faq)，用户经 CLI 安装产生的匿名统计用于自动收录和排名；可安装与目录收录是两件事，不保证即时展示。
+
 ## 开发
 
 ```bash

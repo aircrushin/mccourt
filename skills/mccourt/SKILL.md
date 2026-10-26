@@ -1,78 +1,45 @@
 ---
 name: mccourt
-description: 将多人麦当劳点餐争议转成可验证餐品推荐与趣味法庭判决。
+description: 为 1–4 人协调麦当劳点餐，通过 McCourt 服务按预算、口味、饥饿程度与饮食目标生成有价格来源的餐品推荐和趣味法庭判词，支持单人上诉。
 ---
 
 # McCourt 麦门法庭
 
-## 适用场景
+用于处理多人点餐争议，也适合一个人在预算和口味之间做选择。输出推荐与判词，不自动下单、领券或支付。
 
-当用户需要为 1–4 人协调麦当劳点餐、处理预算/口味/饥饿程度/营养目标冲突时使用。技能输出建议与判词，不替用户自动下单。
+## 运行方式
 
-## 输入格式
+此 skill 通过 HTTP 调用 McCourt 服务，不依赖安装目录之外的源码。需要能发送 HTTP 请求的工具或终端中的 `curl`。安装 skill 不会安装或启动网站，也不会配置麦当劳 MCP。
 
-```json
-{
-  "partyName": "周五午餐",
-  "participants": [
-    {"id":"p1","name":"小王","budget":20,"taste":["我只想省钱"],"goal":"省钱","hunger":3,"request":"越便宜越好"}
-  ],
-  "mode": "live"
-}
-```
+服务地址按以下优先级选择，去掉末尾的 `/`：
 
-`mode=live` 必须依赖 `MCD_MCP_TOKEN`；`mode=demo` 只能用于演示并明确标注。
+1. 用户明确指定的 McCourt 服务地址。
+2. 环境变量 `MCCOURT_BASE_URL`。
+3. 公开体验服务 `https://mccourt.vercel.app`。
 
-## 实际 MCP 依赖
+`MCCOURT_BASE_URL` 是调用方约定，用来拼接本 skill 的请求地址；网站无需读取这个变量。服务不可用时说明原因，不擅自切换到其他服务发送用户资料。
 
-- `query-nearby-stores`：查找可用门店。
-- `query-meals`：获取门店餐品、现价、商品编码和图片。
-- `list-nutrition-foods`：补充热量、蛋白质等营养字段。
-- 可扩展 `query-store-coupons`、`campaign-calendar`，但不在推荐流程中隐式领券或下单。
+- 使用已有服务：无需本地仓库或本地 MCP Token。Live 模式由该服务在服务端配置 `MCD_MCP_TOKEN`。
+- 自行运行服务：按 [本地运行步骤](references/local-service.md) 克隆网站、安装依赖并启动，再使用 `http://127.0.0.1:3000`。
+- 详细请求、返回字段、可执行示例和上诉规则见 [HTTP API](references/http-api.md)，首次调用前读取。
 
-## 处理流程
+## 推荐流程
 
-1. 校验参与者数量、预算和诉求。
-2. Live 模式连接 `https://mcp.mcd.cn`，动态初始化并调用上述只读工具。
-3. 复用 `lib/court/recommend.ts` 的 `recommend()`。按每人预算枚举主食、小食、饮品组合，饥饿程度较高时最多两份不同主食，返回最优及最多两个不同备选。评分考虑类别搭配、饥饿程度、诉求、已知营养和预算效率；不声称精确饱腹预测。
-4. 缺少价格的条目不进入预算内组合；营养总量仅在所有组成项都有对应字段时计算，否则为 null。套餐保持整体，不推测内容；排除周边、独立酱料与内容不明的任选条目。
-5. 生成案件编号、审理意见、逐人推荐和证据来源。
-6. 调用 `/api/appeal` 时携带 `participant`、`reason`、`previousItemIds`、`mode`。太贵要求严格更低总价，不够饱要求增加类别估计的食物量；无解时保留原推荐。前端最多三轮，只替换上诉人。
+1. 收集饭局名称和 1–4 位参与者的姓名、预算、口味、饮食目标、饥饿程度及自由诉求。给每人分配不同的 `id`。预算为 1–500 元，饥饿程度为 1–5；未说明饥饿程度时可用 3，并说明假设。预算或关键诉求不明确时先补齐。
+2. 默认使用 `mode=live`。实时推荐还需用户提供城市与地标，或经纬度；不要沿用示例地点或猜测位置。只有用户要求体验或接受演示时使用 `mode=demo`。
+3. 首次连接可用 `GET /api/health` 确认服务可达；`ok=true` 只表示网站运行，不表示实时 MCP 可用。需要排查实时连接时使用 `GET /api/mcd/status`。
+4. 向所选服务 `POST /api/recommend`。从响应的 `verdict` 读取判决，检查 `verdict.live`、`verdict.warning` 和每人的 `items`、`constraints`、`requestMatch`。HTTP 200 不等于实时推荐成功。
+5. 展示案件名称、逐人餐品组合、总价与预算余额、可验证的营养、未满足的诉求，以及最多两个备选。保留来源和数据时间。判词可以轻度戏剧化，餐品和金额保持服务返回值。
+6. 用户上诉时，调用 `POST /api/appeal`，携带原参与者、原因、当前组合的 `previousItemIds`、相同 `mode`，以及实时判决的 `verdict.store.storeCode`（如有）。每人最多三轮；只替换上诉人的结果。空组合表示无解，应保留原方案并解释缺口。检查上诉自己的 `live` 和 `warning`，不要直接沿用原判决的实时标记。
 
-运行网站后，可直接 POST `/api/recommend` 使用相同输入获得结果，无需操作 UI。该 API 与上诉 API 复用上述引擎及实际 MCP Adapter，不另造菜单或价格。
+## 数据与操作边界
 
-## 输出 Schema
-
-以下仅展示字段形状，不作为实时菜单资料。
-
-```json
-{
-  "caseNumber":"MC-2026-1234",
-  "caseName":"午餐争议案",
-  "recommendations":[
-    {
-      "participantId":"p1",
-      "items":[{"id":"4810","name":"薯条","price":14.5,"calories":289,"protein":4,"tags":["小食"],"source":"麦当劳 MCP"}],
-      "totalPrice":14.5,
-      "calories":289,
-      "protein":4,
-      "score":80,
-      "reason":"示意判词，实际结果由引擎生成",
-      "constraints":["预算不足以同时搭配主食、小食和饮品时，说明缺口"],
-      "alternatives":[]
-    }
-  ],
-  "live":true,
-  "sourceUpdatedAt":"2026-10-24T07:00:00.000Z"
-}
-```
-
-## 错误处理
-
-- Token 缺失、MCP 超时、工具未发现或返回不可解析数据时，返回明确警告。
-- 不把演示数据标为实时数据。
-- 不调用 `create-order`、`auto-bind-coupons` 等有外部副作用的工具。
+- 实时价格、餐品、营养和优惠只采用服务返回的可验证字段。`mode=demo` 始终标注为固定体验资料；Live 失败时说明失败，不静默切换到 Demo。
+- 每人的组合遵守其个人预算，不挪用他人预算。缺价格的条目不参与组合；营养缺失保留为 `null`，不补算。套餐保持整体，不推测内部组成；周边、独立酱料和内容不明的任选条目不进入组合。
+- 推荐算法由服务端维护：枚举主食、小食、饮品组合；较高饥饿程度最多两份不同主食。饱腹评分是类别估计，不是精确预测。不要在 skill 中重写引擎或捏造菜单。
+- 服务推荐流程使用麦当劳 MCP 的 `query-nearby-stores`、`query-meals`、`list-nutrition-foods` 等只读工具；skill 无需额外直连 MCP。不要将 `MCD_MCP_TOKEN` 发给 McCourt HTTP 接口或写入对话和公开文件。
+- Token 缺失、超时、位置缺失、空菜单或格式异常时展示警告。服务返回的 `orderPermit` 不代表已创建订单；本 skill 不调用 `/api/mcd/order`、领券接口或 MCP 的 `create-order`、`auto-bind-coupons`。
 
 ## 示例
 
-用户说：“我和两个朋友点麦当劳，一个预算 20 元，一个想多吃鸡肉，一个想控制热量但必须有薯条。”技能应读取实时餐品后，给出每人可验证的价格/营养字段，无法满足时解释缺口，并生成轻度戏剧化判词。
+用户说“我和两个朋友点麦当劳，一个预算 20 元，一个想多吃鸡肉，一个想控制热量但必须有薯条”。先补齐其余两人的预算及城市与地标，再请求 Live 推荐；按服务结果逐人解释可满足的要求和缺口，给出友善判词。
